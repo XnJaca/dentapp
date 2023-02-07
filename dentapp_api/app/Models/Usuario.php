@@ -27,6 +27,9 @@ class Usuario extends Model
         'genero_id',
     ];
 
+    // ignore time_stamps
+    public $timestamps = false;
+
     // Relation usuario genero
     public function genero()
     {

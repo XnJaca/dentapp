@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->usuario();
 // });
 
-// Route usuarios
-Route::get('/usuarios', 'App\Http\Controllers\UsuarioController@index');
+// Route::resource('usuarios', UsuarioController::class);
+
+// Crear ruta para usuarios, usuario middleware solo si la request es post, put
+Route::resource('usuarios', UsuarioController::class)->middleware('validate_data');
