@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 // Crear ruta para usuarios, usuario middleware solo si la request es post, put
 Route::resource('usuarios', UsuarioController::class)->middleware('validate_data');
+
+// Crear ruta para medicos
+// Route::resource('medicos', MedicoController::class)->middleware('validate_data');
+// Ruta medicos sin middleware
+Route::resource('medicos', MedicoController::class);

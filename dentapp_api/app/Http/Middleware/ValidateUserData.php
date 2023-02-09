@@ -19,7 +19,7 @@ class ValidateUserData
     {
         if ($request->isMethod('post') || $request->isMethod('put')) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'nombre' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
             ]);
 
