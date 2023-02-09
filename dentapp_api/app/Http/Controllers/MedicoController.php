@@ -1,0 +1,136 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Medico;
+use App\Models\Usuario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class MedicoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //Obtener todos los medicos + usuario + tipoUsuarioxUsuario + genero + tipoUsuario
+        $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lista de medicos',
+            'data' => $medicos
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+    //  * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $usuario = null;
+        $medico = null;
+        //
+        try {
+            DB::transaction(function () use ($request) {
+                // Save usuari, request.usuario
+                $usuario = Usuario::create($request->usuario);
+
+                // Save medico, request.medico
+                $medico = Medico::create(
+                    [
+                        'id' => $usuario->id,
+                        'especialidad_id' => $request->medico['especialidad_id'],
+                        'precio_consulta' => $request->medico['precio_consulta'],
+                        'horario_id' => $request->medico['horario_id']
+                    ]
+                );
+
+                // Save usuario_tipo_usuario, request.usuario_tipo_usuario
+                $usuario->tipoUsuarioXUsuario()->create(
+                    [
+                        'usuario_id' => $usuario->id,
+                        'tipo_usuario' => $request->tipo_usuario
+                    ]
+                );
+
+                
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al crear medico',
+                'data' => $e->getMessage()
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Medico creado',
+            'data' => [
+                'medico' => $medico,
+                'usuario' => $usuario
+            ]
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Medico  $medico
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Medico $medico)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Medico  $medico
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Medico $medico)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Medico  $medico
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Medico $medico)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Medico  $medico
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Medico $medico)
+    {
+        //
+    }
+}

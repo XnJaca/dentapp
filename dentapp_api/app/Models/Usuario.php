@@ -36,5 +36,17 @@ class Usuario extends Model
         return $this->belongsTo(Genero::class);
     }
 
+    // Relacion a medico
+    public function medico()
+    {
+        return $this->hasOne(Medico::class);
+    }
+
+    // Relation usuario tipoUsuarioxUsuario
+    public function tipoUsuarioxUsuario()
+    {
+        return $this->hasMany(TipoUsuarioxUsuario::class);
+    }
+
     
 }

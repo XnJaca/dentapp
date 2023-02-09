@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
+use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isEmpty;
-
-class UsuarioController extends Controller
+class TipoUsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,16 +13,13 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        // Obtener todos los registros de la tabla usuario + genero + tipo_usuario_x_usuario.
-        // $usuarios = Usuario::with('genero', 'tipoUsuarioXUsuario')->get();
-        
-        // Search in TipoUsuario where id = tipoUsuarioxUsuario.tipo_id
-        $usuarios = Usuario::with('genero', 'tipoUsuarioXUsuario.tipo')->get();
+        // Obtener todos los registros de la tabla tipo_usuario.
+        $tipoUsuarios = TipoUsuario::all();
 
         return response()->json([
             'success' => true,
-            'message' => 'Lista de usuarios',
-            'data' => $usuarios
+            'message' => 'Lista de tipos de usuario',
+            'data' => $tipoUsuarios
         ]);
     }
 
@@ -56,19 +51,19 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        // Si usuario no existe, se lanza una excepción.
+        // Si tipo de usuario no existe, se lanza una excepción.
         try {
-            $usuario = Usuario::findOrFail($id);
+            $tipoUsuario = TipoUsuario::findOrFail($id);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Usuario obtenido',
-                'data' => $usuario
+                'message' => 'Tipo de usuario obtenido',
+                'data' => $tipoUsuario
             ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => true,
-                'message' => 'No se encontro el usuario',
+                'message' => 'No se encontro el tipo de usuario',
                 'data' => $th
             ]);
         }
@@ -94,24 +89,32 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $user = Usuario::find($id);
-        $user->update($request->all());
+        $tipoUsuario = TipoUsuario::find($id);
+        $tipoUsuario->update($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Usuario actualizado',
-            'data' => $user
+            'message' => 'Tipo de usuario actualizado',
+            'data' => $tipoUsuario
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+        $tipoUsuario = TipoUsuario::find($id);
+        $tipoUsuario->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tipo de usuario eliminado',
+            'data' => $tipoUsuario
+        ]);
     }
+
 }
