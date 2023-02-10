@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
@@ -29,3 +30,5 @@ Route::resource('usuarios', UsuarioController::class)->middleware('validate_data
 // Route::resource('medicos', MedicoController::class)->middleware('validate_data');
 // Ruta medicos sin middleware
 Route::resource('medicos', MedicoController::class);
+// Ruta especialidades
+Route::resource('especialidades', EspecialidadController::class)->middleware('validate_especialidad');
