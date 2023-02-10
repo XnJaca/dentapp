@@ -6,28 +6,31 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ValidateUserData
+class ValidateDataEspecialidad
 {
-     /**
+    /**
      * Handle an incoming request.
      *
      * @param  Request  $request
      * @param  Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if ($request->isMethod('post') || $request->isMethod('put')) {
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'descripcion' => 'required|string|max:40'
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 400);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error de validación',
+                    'error' => $validator->errors()
+                ], 400);
+                // return response()->json($validator->errors(), 400);
             }
         }
-
         return $next($request);
     }
 }

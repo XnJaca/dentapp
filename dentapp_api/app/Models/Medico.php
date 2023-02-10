@@ -28,13 +28,13 @@ class Medico extends Model
     // Relación uno a uno, donde id es mi primary key y tambien esta relacionado al id del usuario
     public function usuario()
     {
-        return $this->hasOne('App\Models\Usuario', 'id', 'id');
+        return $this->hasOne(Usuario::class, 'id', 'id');
     }
 
     // Relación uno a muchos inversa
     public function especialidad()
     {
-        return $this->belongsTo('App\Models\Especialidad');
+        return $this->belongsTo(Especialidad::class, 'especialidad_id', 'id');
     }
 
 
