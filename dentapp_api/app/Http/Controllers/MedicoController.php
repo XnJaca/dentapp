@@ -12,12 +12,12 @@ class MedicoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         //Obtener todos los medicos + usuario + tipoUsuarioxUsuario + genero + tipoUsuario
-        $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo')->get();
+        $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo', 'especialidad')->get();
 
         return response()->json([
             'success' => true,
@@ -39,7 +39,7 @@ class MedicoController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -93,7 +93,7 @@ class MedicoController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Medico  $medico
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Medico $medico)
     {
@@ -104,7 +104,7 @@ class MedicoController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Medico  $medico
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Medico $medico)
     {
@@ -116,7 +116,7 @@ class MedicoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Medico  $medico
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Medico $medico)
     {
@@ -127,7 +127,7 @@ class MedicoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Medico  $medico
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Medico $medico)
     {
