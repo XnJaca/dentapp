@@ -37,5 +37,21 @@ class Medico extends Model
         return $this->belongsTo(Especialidad::class, 'especialidad_id', 'id');
     }
 
+    //Relation with cita
+    public function cita()
+    {
+        return $this->hasMany(Cita::class);
+    }
 
+    //Relation with horarioXMedico
+    public function horarioXMedico()
+    {
+        return $this->hasMany(HorarioXMedico::class);
+    }
+
+    //Relation with tratamiento
+    public function tratamiento()
+    {
+        return $this->hasMany(Tratamiento::class);
+    }
 }

@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genero extends Model
+class Horario extends Model
 {
     use HasFactory;
-
-    protected $table = 'generos';
+    protected $table = 'horario';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
         'id',
-        'descripcion',
+        'dia',
+        'hora_inicio',
+        'hora_final'
     ];
 
-    // Relation genero usuario
-    public function usuarios()
+    // Relation with horarioXMedico
+    public function horarioXMedico()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->hasMany(HorarioXMedico::class);
     }
-
 }

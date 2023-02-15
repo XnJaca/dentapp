@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genero extends Model
+class TipoSangre extends Model
 {
     use HasFactory;
-
-    protected $table = 'generos';
+    protected $table = 'tipo_sangre';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
@@ -18,10 +17,9 @@ class Genero extends Model
         'descripcion',
     ];
 
-    // Relation genero usuario
-    public function usuarios()
+    // Relation with paciente
+    public function paciente()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->hasMany(Paciente::class);
     }
-
 }
