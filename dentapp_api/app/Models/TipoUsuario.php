@@ -9,13 +9,13 @@ class TipoUsuario extends Model
 {
     use HasFactory;
     protected $table = 'tipo_usuario';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
         'descripcion',
     ];
-
-    public $timestamps = false;
 
     // Relation with tipoUsuarioxUsuario
     public function tipoUsuarioxUsuario()

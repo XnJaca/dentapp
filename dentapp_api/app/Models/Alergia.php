@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genero extends Model
+class Alergia extends Model
 {
     use HasFactory;
 
-    protected $table = 'generos';
+    protected $table = 'alergias';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
         'id',
-        'descripcion',
+        'nombre',
+        'descripcion'
     ];
 
-    // Relation genero usuario
-    public function usuarios()
+    // Relation with alergiaPaciente
+    public function alergiaPaciente()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->hasMany(AlergiaPaciente::class);
     }
-
 }
