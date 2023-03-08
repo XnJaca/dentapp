@@ -1,16 +1,28 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { AuthRoutes } from '../pages/auth/routes/auth_routes'
-import { DashboardView } from '../pages/dashboard/views/dashboard_view'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { AdminPage } from '../admin/pages/AdminPage'
+import { AuthRoutes } from '../auth/routes/AuthRoutes'
+import { useCheckAuth } from '../hooks'
 
 export const AppRouter = () => {
-    return (
-        <Routes>
-            {/* LOGIN & REGISTRO */}
-            <Route path='/auth/*' element={<AuthRoutes></AuthRoutes>}></Route>
 
-            {/* DASHBOARD */}
-            <Route path='/*' element={<DashboardView></DashboardView>}></Route>
-        </Routes>
-    )
+  const { status } = useCheckAuth();
+
+  if (status === 'checking') {
+    return <div className="loader"></div>
+  }
+  return (
+    <Routes>
+
+      {
+        // Si el usuario no está autenticado, muestra la página de inicio de sesión
+        // Si el usuario está autenticado, muestra la página de administración
+
+        (status === 'auth')
+          ? <Route path='/*' element={<AdminPage />}></Route>
+          : <Route path='/*' element={<AuthRoutes />}></Route>
+      }
+
+      <Route path='*' element={<Navigate to='/auth/login' />}></Route>
+    </Routes>
+  )
 }

@@ -17,20 +17,20 @@ class ValidateDataEspecialidad
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->isMethod('post') || $request->isMethod('put')) {
-            $validator = Validator::make($request->all(), [
-                'descripcion' => 'required|string|max:40'
-            ]);
+        // if ($request->isMethod('post') || $request->isMethod('put')) {
+        //     $validator = Validator::make($request->all(), [
+        //         'descripcion' => 'required|string|max:40'
+        //     ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error de validación',
-                    'error' => $validator->errors()
-                ], 400);
-                // return response()->json($validator->errors(), 400);
-            }
-        }
+        //     if ($validator->fails()) {
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Error de validación',
+        //             'error' => $validator->errors()
+        //         ], 400);
+        //         // return response()->json($validator->errors(), 400);
+        //     }
+        // }
         return $next($request);
     }
 }
