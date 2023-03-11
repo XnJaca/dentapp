@@ -49,6 +49,13 @@ class UsuarioController extends Controller
         //
     }
 
+    public static function getUsuarioByEmail($email)
+    {
+        // Geg usuario by email, with genero and tipoUsuarioXUsuario
+        $usuario = Usuario::where('email', $email)->with('genero', 'tipoUsuarioXUsuario.tipo')->first();
+        return $usuario;
+    }
+
     /**
      * Display the specified resource.
      *
