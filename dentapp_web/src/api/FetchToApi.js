@@ -1,6 +1,7 @@
 
 // call to api
 export const FetchToApi = async ({ endpoint, method, body = '' }) => {
+    console.log("ENDPOIIINT", endpoint);
     try {
         const resp = await fetch(endpoint, {
             method: method,
@@ -9,10 +10,12 @@ export const FetchToApi = async ({ endpoint, method, body = '' }) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify(body)
+        }).catch((error) => {
+            console.log(error);
         });
         console.log('reeesss', resp);
-        if (!resp.ok) {
-            throw new Error('Error en la petición');           
+        if (resp == undefined  || !resp.ok) {
+            throw new Error('Error en la petición');
         }
         const data = await resp.json();
         console.log(data);

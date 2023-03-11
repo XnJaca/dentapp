@@ -18,8 +18,8 @@ export const startLoginWithEmailPassword = (email, pass) => {
         try {
             const data = await ReqLogin({ email, pass });
             console.log(data);
-            if (data.success === false) {
-                return dispatch(logout(data.message));
+            if (data.success != true) {
+                return dispatch(logout(data.message ?? data));
             }
 
             console.log(data);

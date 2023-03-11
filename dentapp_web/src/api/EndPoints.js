@@ -1,6 +1,6 @@
 
 // base url api
-const baseUrl = 'http://localhost:8000/api';
+const baseUrl = 'http://192.168.29.226:8080/api';
 
 // Endpoints
 const login = `${baseUrl}/login`;

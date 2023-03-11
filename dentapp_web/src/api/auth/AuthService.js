@@ -8,8 +8,6 @@ export const ReqLogin = async ({ email, pass }) => {
             method: 'POST',
             body: { email, pass }
         });
-
-
         return data;
     } catch (error) {
         return error;
