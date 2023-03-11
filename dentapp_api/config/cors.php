@@ -19,7 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['*', 'http://192.168.29.226:5173/'],
+    // 'allowed_origins' => ['http://miurl.com'],
 
     'allowed_origins_patterns' => [],
 
