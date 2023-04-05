@@ -6,8 +6,6 @@ import { startLoginWithEmailPassword } from '../../store/auth/thunks';
 
 export const SigInPage = () => {
 
-    const [isLoading, setIsLoading] = useState(true)
-
     const { status, errorMsg } = useSelector(state => state.auth);
 
     const isChecking = useMemo(() => status === 'checking', [status]);
@@ -24,9 +22,8 @@ export const SigInPage = () => {
         console.log("onSubmitt", email, pass);
         dispatch(startLoginWithEmailPassword(email, pass))
     }
-    console.log('errror',errorMsg);
+
     useEffect(() => {
-        setIsLoading(false);
         console.log("useEffectt", errorMsg);
         if (errorMsg) {
             Swal.fire('Error', errorMsg, 'error');
@@ -37,7 +34,6 @@ export const SigInPage = () => {
 
     return (
         <>
-            {isLoading && <div className="loader"></div>}
             <div id="app">
                 <section className="section">
                     <div className="container mt-5">

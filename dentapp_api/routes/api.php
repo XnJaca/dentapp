@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -23,16 +24,15 @@ use Illuminate\Support\Facades\Route;
 
 // Route::resource('usuarios', UsuarioController::class);
 
-// Ruta para login
+// Ruta para login 
+// TODO: validar que venga la data: email y pass mediante un middleware
 Route::post('/login', [AuthController::class, 'login']);
-// Route::resource('login', AuthController::class);
 
-// Crear ruta para usuarios, usuario middleware solo si la request es post, put
 Route::resource('usuarios', UsuarioController::class)->middleware('validate_data');
 
-// Crear ruta para medicos
-// Route::resource('medicos', MedicoController::class)->middleware('validate_data');
-// Ruta medicos sin middleware
 Route::resource('medicos', MedicoController::class);
+
+Route::resource('generos', GeneroController::class);
+
 // Ruta especialidades
 Route::resource('especialidades', EspecialidadController::class)->middleware('validate_especialidad');

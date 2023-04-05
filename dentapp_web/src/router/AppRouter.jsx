@@ -10,6 +10,7 @@ export const AppRouter = () => {
   if (status === 'checking') {
     return <div className="loader"></div>
   }
+  
   return (
     <Routes>
 

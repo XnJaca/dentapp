@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "@reduxjs/toolkit": "^1.9.3",
     "popper.js": "^1.16.1",
     "react": "^18.2.0",
-    "react-alert": "^7.0.3",
-    "react-alert-template-basic": "^1.0.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "sweetalert2": "^11.7.3",

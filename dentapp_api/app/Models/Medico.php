@@ -20,9 +20,9 @@ class Medico extends Model
     // Fillable
     protected $fillable = [
         'id',
-        'precio_consulta',
         'especialidad_id',
-        'horario_id',
+        'precio_consulta',
+        // 'horario_id',
     ];
 
     // Relación uno a uno, donde id es mi primary key y tambien esta relacionado al id del usuario

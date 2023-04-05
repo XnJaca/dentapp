@@ -26,6 +26,7 @@ class Usuario extends Model
         'telefono',
         'telefono_emer',
         'genero_id',
+        'estado'
     ];
 
     // ignore time_stamps

@@ -33,6 +33,8 @@ class MedicoController extends Controller
      */
     public function create(Request $request)
     {
+        //
+        dd($request->all());
     }
 
     /**
@@ -43,13 +45,16 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->medico['especialidad_id']);
+
         $usuario = null;
         $medico = null;
         //
         try {
             DB::transaction(function () use ($request) {
+            //    dd($request->usuario());
                 // Save usuari, request.usuario
-                $usuario = Usuario::create($request->usuario);
+                $usuario = Usuario::create($request['usuario']);
 
                 // Save medico, request.medico
                 $medico = Medico::create(
@@ -57,7 +62,7 @@ class MedicoController extends Controller
                         'id' => $usuario->id,
                         'especialidad_id' => $request->medico['especialidad_id'],
                         'precio_consulta' => $request->medico['precio_consulta'],
-                        'horario_id' => $request->medico['horario_id']
+                        // 'horario_id' => $request->medico['horario_id']
                     ]
                 );
 
@@ -65,7 +70,7 @@ class MedicoController extends Controller
                 $usuario->tipoUsuarioXUsuario()->create(
                     [
                         'usuario_id' => $usuario->id,
-                        'tipo_usuario' => $request->tipo_usuario
+                        'tipo_id' => $request->tipo_usuario['tipo_id']
                     ]
                 );
 
@@ -75,7 +80,7 @@ class MedicoController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al crear medico',
-                'data' => $e->getMessage()
+                'data' => [$usuario,$e->getMessage()]
             ]);
         }
 

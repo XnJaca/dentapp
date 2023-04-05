@@ -21,20 +21,23 @@ export const CitasTable = () => {
                     <div className="card-body p-0">
                         <div className="table-responsive">
                             <table className="table table-striped">
-                                <tr>
-                                    <th>Cita</th>
-                                    <th>Paciente</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Prioridad</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                <tr>
-                                    <td>Cambio de Ligas</td>
-                                    <td className="text-truncate">
-                                        <td>Jonathan Cruz Ayala</td>
-                                        {/* <ul className="list-unstyled order-list m-b-0 m-b-0">
+                                <thead>
+                                    <tr>
+                                        <th>Cita</th>
+                                        <th>Paciente</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Prioridad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Cambio de Ligas</td>
+                                        <td className="text-truncate">
+                                            <td>Jonathan Cruz Ayala</td>
+                                            {/* <ul className="list-unstyled order-list m-b-0 m-b-0">
                                             <li className="team-member team-member-sm"><img className="rounded-circle"
                                                 src="assets/img/users/user-8.png" alt="user" data-toggle="tooltip" title=""
                                                 data-original-title="Wildan Ahdian" /></li>
@@ -46,22 +49,22 @@ export const CitasTable = () => {
                                                 data-original-title="Sarah Smith" /></li>
                                             <li className="avatar avatar-sm"><span className="badge badge-primary">+4</span></li>
                                         </ul> */}
-                                    </td>
-                                    <td className="align-middle">
-                                        <div className="badge badge-warning">Pendiente</div>
-                                        {/* <div className="progress-text">50%</div>
+                                        </td>
+                                        <td className="align-middle">
+                                            <div className="badge badge-warning">Pendiente</div>
+                                            {/* <div className="progress-text">50%</div>
                                         <div className="progress" data-height="6">
                                             <div className="progress-bar bg-success" data-width="50%"></div>
                                         </div> */}
-                                    </td>
-                                    <td>2018-01-20</td>
-                                    <td>13:00</td>
-                                    <td>
-                                        <div className="badge badge-danger">Urgente</div>
-                                    </td>
-                                    <td><a href="#" className="btn btn-outline-primary">Detail</a></td>
-                                </tr>
-                                {/* <tr>
+                                        </td>
+                                        <td>2018-01-20</td>
+                                        <td>13:00</td>
+                                        <td>
+                                            <div className="badge badge-danger">Urgente</div>
+                                        </td>
+                                        <td><a href="#" className="btn btn-outline-primary">Detail</a></td>
+                                    </tr>
+                                    {/* <tr>
                                     <td className="p-0 text-center">
                                         <div className="custom-checkbox custom-control">
                                             <input type="checkbox" data-checkboxes="mygroup" className="custom-control-input"
@@ -235,6 +238,8 @@ export const CitasTable = () => {
                                     </td>
                                     <td><a href="#" className="btn btn-outline-primary">Detail</a></td>
                                 </tr> */}
+                                </tbody>
+
                             </table>
                         </div>
                     </div>

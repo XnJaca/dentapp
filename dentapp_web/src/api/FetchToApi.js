@@ -1,7 +1,7 @@
 
 // call to api
 export const FetchToApi = async ({ endpoint, method, body = '' }) => {
-    console.log("ENDPOIIINT", endpoint);
+    // console.log("ENDPOIIINT", endpoint);
     try {
         const resp = await fetch(endpoint, {
             method: method,
@@ -13,12 +13,14 @@ export const FetchToApi = async ({ endpoint, method, body = '' }) => {
         }).catch((error) => {
             console.log(error);
         });
-        console.log('reeesss', resp);
+        
+        // console.log('reeesss', resp);
         if (resp == undefined  || !resp.ok) {
-            throw new Error('Error en la petición');
+            throw new Error('Error en la petición, compruebe su conexión a internet');
         }
+
         const data = await resp.json();
-        console.log(data);
+        // console.log(data);
         return data;
     } catch (error) {
         return error;

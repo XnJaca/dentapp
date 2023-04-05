@@ -1,7 +1,9 @@
+import { loading } from "../../../../dentap_web_v1/src/core/store/auth";
 import { ReqLogin } from "../../api/auth/AuthService";
 import { checkingCredentials, login, logout } from "./authSlice"
 
 export const checkingAuth = (email, pass) => {
+
     return async (dispatch) => {
         dispatch(checkingCredentials());
         const user = JSON.parse(localStorage.getItem('user')); // obtiene el usuario desde localStorage si existe
@@ -12,23 +14,26 @@ export const checkingAuth = (email, pass) => {
 }
 
 export const startLoginWithEmailPassword = (email, pass) => {
+    
     return async (dispatch) => {
         dispatch(checkingCredentials());
 
         try {
             const data = await ReqLogin({ email, pass });
-            console.log(data);
+            // console.log(data);
+            
             if (data.success != true) {
                 return dispatch(logout(data.message ?? data));
             }
 
-            console.log(data);
+            // console.log(data);
             const user = {
                 uid: data.usuario.id,
                 data: data.usuario,
                 displayName: data.usuario.nombre + ' ' + data.usuario.apellido_1 + ' ' + data.usuario.apellido_2
             };
             localStorage.setItem('user', JSON.stringify(user)); // guarda el usuario en localStorage
+    
             dispatch(login(user));
             
             return {
