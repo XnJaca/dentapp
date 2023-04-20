@@ -6,7 +6,6 @@ import { UserService } from './user_service';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Calendar } from "primereact/calendar";
-import { Dropdown } from 'primereact/dropdown';
 import { Toolbar } from 'primereact/toolbar';
 import { useFormik } from 'formik';
 import { Dialog } from 'primereact/dialog';
@@ -14,19 +13,21 @@ import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
 import moment from 'moment';
 import { CustomInputText } from './components/custom_input_text';
-import { validateEmail, validatePhoneNumber } from '../../../../core/utils/'
 import { useDispatch, useSelector } from 'react-redux';
 import { startNewUser } from '../../../../core/store/usuarios/thunk';
 import { startGetGeneros } from '../../../../core/store/generos';
-import {CustomInputSwitch} from './components/input_switch';
+import { CustomInputSwitch } from './components/input_switch';
+import { CustomDropdown, CustomInputNumber, CustomInputPassword } from './components';
+import { startGetTipoUsuarios } from '../../../../core/store/tipo_usuarios/thunk';
+import { startGetEspecialidades } from '../../../../core/store/especialidades/thunk';
 
 export const UserPage = () => {
-  let emptyUser = {
-    id: null,
-    cedula: '',
-    nombre: '',
-    nombre_emer: '',
-    apellido_1: "",
+  let emptyMedico = {
+    "id": null,
+    "cedula": '',
+    "nombre": '',
+    "nombre_emer": '',
+    "apellido_1": "",
     "apellido_2": "",
     "email": "",
     "pass": "",
@@ -36,6 +37,9 @@ export const UserPage = () => {
     "telefono_emer": null,
     "genero_id": null,
     "estado": null,
+    "tipo_usuario": null,
+    "especialidad_id": null,
+    "precio_consulta": 0,
   };
 
 
@@ -44,11 +48,10 @@ export const UserPage = () => {
   const [userDialog, setUserDialog] = useState(false);
   const [deleteUserDialog, setDeleteUserDialog] = useState(false);
   const [deleteUsersDialog, setDeleteUsersDialog] = useState(false);
-  const [user, setUser] = useState(emptyUser);
+  const [user, setUser] = useState(emptyMedico);
   const [selectedUsers, setSelectedUsers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
-  // const [gens, setGeneros] = useState(null);
 
   const toast = useRef(null);
   const dt = useRef(null);
@@ -56,28 +59,17 @@ export const UserPage = () => {
   const dispatch = useDispatch();
 
   const generos = useSelector(state => state.genero);
-  //   const geners = [
-  //     { name: 'New York', code: 'NY' },
-  //     { name: 'Rome', code: 'RM' },
-  //     { name: 'London', code: 'LDN' },
-  //     { name: 'Istanbul', code: 'IST' },
-  //     { name: 'Paris', code: 'PRS' }
-  // ];
+  const tipo_usuarios = useSelector(state => state.tipoUsuario);
+  const especialidades = useSelector(state => state.especialidad);
+
   useEffect(() => {
-    UserService.getUsers().then((data) => setUsers(data));
-    // UserService.getGeneros().then((data) => setGeneros(data));
     dispatch(startGetGeneros());
-    // setGeneros();
+    dispatch(startGetTipoUsuarios());
+    dispatch(startGetEspecialidades());
   }, []);
 
-
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-EN', { style: 'currency', currency: 'USD' });
-  };
-
   const openNew = () => {
-    setUser(emptyUser);
+    setUser(emptyMedico);
     setSubmitted(false);
     setUserDialog(true);
   };
@@ -87,7 +79,7 @@ export const UserPage = () => {
     setUserDialog(false);
   };
 
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
 
   const hideDeleteUserDialog = () => {
     setDeleteUserDialog(false);
@@ -97,33 +89,40 @@ export const UserPage = () => {
     setDeleteUsersDialog(false);
   };
 
-  const saveUser = () => {
+  const saveUser = async () => {
 
-    console.log('newuser');
-    dispatch(startNewUser());
-    // setSubmitted(true);
-    let _user = { ...user };
-    console.log("USEEERR", _user);
-    // if (user.nombre.trim()) {
-    //   let _users = [...users];
-    //   let _user = { ...user };
 
-    //   if (user.id) {
-    //     const index = findIndexById(user.id);
+    setSubmitted(true);
+    console.log(user);
+    if (user.cedula.trim() && user.nombre.trim() && user.apellido_1.trim() && user.apellido_2.trim() && user.email.trim() && user.pass.trim() && user.fecha_nacimiento.toString().trim() && user.direccion.trim() && user.telefono && user.telefono_emer && user.genero_id && user.estado) {
+      console.log('newuser');
+      dispatch(startNewUser());
+      let _user = { ...user };
+      console.log("USEEERR", _user);
+      // if (user.nombre.trim()) {
+      //   let _users = [...users];
+      //   let _user = { ...user };
 
-    //     _users[index] = _user;
-    //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario Actualizado', life: 3000 });
-    //   } else {
-    //     _user.id = createId();
-    //     // _user.nombre = 'product-placeholder.svg';
-    //     _users.push(_product);
-    //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario Creado', life: 3000 });
-    //   }
+      //   if (user.id) {
+      //     const index = findIndexById(user.id);
 
-    //   setUsers(_users);
-    //   setUserDialog(false);
-    //   setUser(emptyProduct);
-    // }
+      //     _users[index] = _user;
+      //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario Actualizado', life: 3000 });
+      //   } else {
+      //     _user.id = createId();
+      //     // _user.nombre = 'product-placeholder.svg';
+      //     _users.push(_product);
+      //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario Creado', life: 3000 });
+      //   }
+
+      //   setUsers(_users);
+      //   setUserDialog(false);
+      //   setUser(emptyProduct);
+      // }
+    } else {
+
+    }
+
   };
 
   const editUser = (user) => {
@@ -193,10 +192,18 @@ export const UserPage = () => {
     setUser(_user);
   };
 
-  const [selectedGenero, setSelectedGenero] = useState(null);
+  const [selectedGenero, setSelectedGenero] = useState(user.genero_id);
+  const [selectedTipoUsuario, setSelectedTipoUsuario] = useState(null);
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState(null);
 
   const onInputChange = (e, nombre) => {
-    const val = (e.target && e.target.value) || '';
+    let val = "";
+    if (nombre === "genero_id" || nombre === "tipo_usuario" || nombre === "especialidad_id") {
+      val = e.value ? e.value.id : null;
+      setSelectedGenero(e.value);
+    } else {
+      val = (e.target && e.target.value) || '';
+    }
     let _user = { ...user };
 
     _user[`${nombre}`] = val;
@@ -204,14 +211,8 @@ export const UserPage = () => {
     setUser(_user);
   };
 
-  const onInputNumberChange = (e, nombre) => {
-    const val = e.value || 0;
-    let _user = { ...user };
 
-    _user[`${nombre}`] = val;
 
-    setUser(_user);
-  };
 
   const leftToolbarTemplate = () => {
     return (
@@ -226,13 +227,6 @@ export const UserPage = () => {
     return <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
   };
 
-  const imageBodyTemplate = (rowData) => {
-    return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
-  };
-
-  const priceBodyTemplate = (rowData) => {
-    // return formatCurrency(rowData.price);
-  };
 
   const statusBodyTemplate = (rowData) => {
     return <Tag value={rowData.estado} severity={getSeverity(rowData)}></Tag>;
@@ -321,6 +315,10 @@ export const UserPage = () => {
     </React.Fragment>
   );
 
+  const setApellidos = (rowData) => {
+    return rowData.apellido_1 + ' ' + rowData.apellido_2;
+  }
+
   const fechaNacimiento = moment(user.fecha_nacimiento).format('DD/MM/YYYY');
 
   return (
@@ -336,11 +334,10 @@ export const UserPage = () => {
           <Column selectionMode="multiple" exportable={false}></Column>
           <Column field="cedula" header="Cedula" sortable style={{ minWidth: '12rem' }}></Column>
           <Column field="nombre" header="Nombre" sortable style={{ minWidth: '16rem' }}></Column>
-          <Column field={"apellido_1"} header="Apellidos" sortable style={{ minWidth: '16rem' }}></Column>
-          {/* <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column> */}
+          <Column field="apellido_1" header="Apellidos" body={setApellidos} sortable style={{ minWidth: '12rem' }}></Column>
           <Column field="email" header="Email" sortable style={{ minWidth: '10rem' }}></Column>
           <Column field="telefono" header="Telefono" sortable style={{ minWidth: '12rem' }}></Column>
-          <Column field="estado" header="Estado" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
+          <Column field="estado" header="Estado" body={statusBodyTemplate} sortable style={{ minWidth: '6rem' }}></Column>
           <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
         </DataTable>
       </div>
@@ -348,62 +345,68 @@ export const UserPage = () => {
       <Dialog visible={userDialog} style={{ width: '82rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Agregar Nuevo Usuario" className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
         {/* {user.image && <img src={`https://primefaces.org/cdn/primereact/images/product/${user.nombre}`} alt={product.image} className="product-image block m-auto pb-3" />} */}
         <div className='row'>
-          <div className='col-12 col-md-6'>
-            <div className="field">
-              <label htmlFor="cedula" className="font-bold">
-                Cedula
-              </label>
-              <InputText id="cedula" value={user.cedula} onChange={(e) => onInputChange(e, 'cedula')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.cedula })} />
-              {submitted && !user.cedula && <small className="p-error">La cedula es requerida.</small>}
-            </div>
-          </div>
-          <div className='col-12 col-md-6'>
-            <div className='field'>
-              <label htmlFor="nombre" className="font-bold">
-                Nombre
-              </label>
-              <InputText id="nombre" value={user.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !user.nombre })} />
-              {submitted && !user.nombre && <small className="p-error">Nombre es requerido.</small>}
-            </div>
-          </div>
-          <div className='col-12 col-md-6'>
-            <div className="field">
-              <label htmlFor="apellido_1" className="font-bold">
-                Primer Apellido
-              </label>
-              <InputText id="apellido_1" value={user.apellido_1} onChange={(e) => onInputChange(e, 'apellido_1')} required className={classNames({ 'p-invalid': submitted && !user.apellido_1 })} />
-              {submitted && !user.apellido_1 && <small className="p-error">El primer apellido es requerido.</small>}
-            </div>
-          </div>
-          <div className='col-12 col-md-6'>
-            <div className="field">
-              <label htmlFor="apellido_2" className="font-bold">
-                Segundo Apellido
-              </label>
-              <InputText id="apellido_2" value={user.apellido_2} onChange={(e) => onInputChange(e, 'apellido_2')} required className={classNames({ 'p-invalid': submitted && !user.apellido_2 })} />
-              {submitted && !user.apellido_2 && <small className="p-error">El segundo apellido es requerido.</small>}
-            </div>
-          </div>
-
+          <CustomInputText
+            label="Cedula"
+            name="cedula"
+            value={user.cedula}
+            onChange={(e) => onInputChange(e, 'cedula')}
+            autoFocus
+            submitted={submitted}
+            keyfilter='int'
+          />
+          <CustomInputText
+            label="Nombre"
+            name="nombre"
+            value={user.nombre}
+            onChange={(e) => onInputChange(e, 'nombre')}
+            submitted={submitted}
+          />
+          <CustomInputText
+            label="Primer Apellido"
+            name="apellido_1"
+            value={user.apellido_1}
+            onChange={(e) => onInputChange(e, 'apellido_1')}
+            submitted={submitted}
+          />
+          <CustomInputText
+            label="Segundo Apellido"
+            name="apellido_2"
+            value={user.apellido_2}
+            onChange={(e) => onInputChange(e, 'apellido_2')}
+            submitted={submitted}
+          />
+          <CustomInputText
+            label="Nombre Emergencia"
+            name="nombre_emer"
+            value={user.nombre_emer}
+            onChange={(e) => onInputChange(e, 'nombre_emer')}
+            submitted={submitted}
+          />
           <CustomInputText
             id="email"
             label="Email"
             value={user.email}
             onChange={(e) => onInputChange(e, 'email')}
+            submitted={submitted}
+          />
+          {/* <CustomInputText
+            id="pass"
+            label="Contraseña"
+            value={user.pass}
+            onChange={(e) => onInputChange(e, 'pass')}
             required
             submitted={submitted}
-            keyfilter={/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i}
+          /> */}
+          <CustomInputPassword
+            id="pass"
+            label="Contraseña"
+            value={user.pass}
+            onChange={(e) => onInputChange(e, 'pass')}
+            submitted={submitted}
           />
-          {/* <div className='col-12 col-md-6'>
-            <div className="field">
-              <label htmlFor="email" className="font-bold">
-                Email
-              </label>
-              <InputText id="email" value={user.email} onChange={(e) => onInputChange(e, 'email')} required className={classNames({ 'p-invalid': submitted && !user.email })} />
-              {submitted && !user.email && <small className="p-error">El email es requerido.</small>}
-            </div>
-          </div> */}
-          {console.log("FECHA NACIMIENTO: ", fechaNacimiento)}
+
+
+
           <div className='col-12 col-md-6'>
             <div className="field">
               <label htmlFor="fecha_nacimiento">Fecha Nacimiento</label>
@@ -417,11 +420,12 @@ export const UserPage = () => {
                   'p-invalid': isFormFieldInvalid('fecha_nacimiento')
                 })}
                 onChange={(e) => {
+                  onInputChange(e, 'fecha_nacimiento');
                   formik.setFieldValue('fecha_nacimiento', e.target.value);
                 }}
               />
               {getFormErrorMessage('fecha_nacimiento')}
-              {/* {!isFormFieldInvalid('fecha_nacimiento') && !user.fecha_nacimiento && <small className="p-error">La fecha de nacimiento es requerido.</small>} */}
+              {submitted && !user.fecha_nacimiento && <small className="p-error">La fecha de nacimiento es requerido.</small>}
             </div>
           </div>
 
@@ -439,23 +443,63 @@ export const UserPage = () => {
             value={user.telefono}
             onChange={(e) => onInputChange(e, 'telefono')}
             submitted={submitted}
-            validator={validatePhoneNumber}
             keyfilter='int'
           />
-          {/* <div className='col-12 col-md-6 mt-4'>
-            <div className="field">
-              <label htmlFor="genero" className="font-bold">Genero</label>
-              <Dropdown id='genero' value={selectedGenero} onChange={(e) => setSelectedGenero(e.value)} options={generos.generos} optionLabel="descripcion"
-                placeholder="Seleccione el genero" className="w-full md:w-14rem" />
-            </div>
-          </div> */}
+
+          <CustomInputText
+            id="telefono_emer"
+            label="Telefono"
+            value={user.telefono_emer}
+            onChange={(e) => onInputChange(e, 'telefono_emer')}
+            submitted={submitted}
+            keyfilter='int'
+          />
+
+          <CustomDropdown
+            id="genero"
+            label="Seleccione el Genero"
+            value={user.genero_id}
+            onChange={(e) => onInputChange(e, 'genero_id')} //setSelectedGenero(e.value)
+            options={generos.generos}
+            optionLabel="descripcion"
+            submitted={submitted}
+          />
 
           <CustomInputSwitch
-            id="activo"
-            label="Usuario Activo"
-            onChange={(e) => setChecked(e.value)}
-            checked={checked} ></CustomInputSwitch>
+            id="estado"
+            label="Estado"
+            onChange={(e) => onInputChange(e, 'estado')}
+            checked={(user.estado == 0 || user.estado == null) ? false : true} />
 
+          <CustomDropdown
+            id="tipo_usuario"
+            label="Seleccione el Tipo de Usuario"
+            value={user.tipo_usuario}
+            onChange={(e) => onInputChange(e, 'tipo_usuario')}
+            options={tipo_usuarios.data}
+            optionLabel="descripcion"
+            submitted={submitted}
+          />
+          {/* {console.log(selectedTipoUsuario.descripcion)} */}
+          {user.tipo_usuario === 2 && (
+            <>
+              <CustomDropdown
+                id="especialidad_id"
+                label="Seleccione la especialidad"
+                value={user.especialidad_id}
+                onChange={(e) => onInputChange(e, 'especialidad_id')}
+                options={especialidades.especialidades}
+                optionLabel="descripcion"
+                submitted={submitted}
+              />
+              <CustomInputNumber
+                id="precio_consulta"
+                label="Precio Consulta"
+                onChange={(e) => onInputChange(e, 'precio_consulta')}
+                value={user.precio_consulta}
+                submitted={submitted} />
+            </>
+          )}
         </div>
       </Dialog>
       <Dialog visible={deleteUserDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
@@ -463,7 +507,7 @@ export const UserPage = () => {
           <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
           {user && (
             <span>
-              Are you sure you want to delete <b>{user.cedula}</b>?
+              Seguro que desea borrar este medico. <b>{user.cedula}</b>?
             </span>
           )}
         </div>

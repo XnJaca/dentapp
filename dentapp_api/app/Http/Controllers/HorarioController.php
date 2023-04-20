@@ -10,11 +10,18 @@ class HorarioController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         //
+        $horarios = Horario::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lista de horarios',
+            'data' => $horarios
+        ]);
     }
 
     /**

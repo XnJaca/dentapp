@@ -38,11 +38,12 @@ export const GenerosSlice = createSlice({
             state.message = action.payload.message;
         },
 
-        // loading: (state) => {
-        //     state.loading = !state.loading;
-        // }
+        loadGeneros: (state, action) => {
+            console.log('loadGeneros', action.payload);
+            state.loading = action.payload;
+        }
 
     },
 })
 
-export const { saveGenero, setGeneros, updateGenero, deleteGenero, loading } = GenerosSlice.actions;
+export const { saveGenero,loadGeneros, setGeneros, updateGenero, deleteGenero, loading } = GenerosSlice.actions;

@@ -2,6 +2,7 @@
 // call to api
 export const FetchToApi = async ({ endpoint, method, body = '' }) => {
     try {
+        console.log('FetchToApi', endpoint, method, body);
         const resp = await fetch(endpoint, {
             method: method,
             headers: {
@@ -15,7 +16,7 @@ export const FetchToApi = async ({ endpoint, method, body = '' }) => {
         
         // console.log('reeesss', resp);
         if (resp == undefined  || !resp.ok) {
-            throw new Error('Error en la petición, compruebe su conexión a internet');
+            throw new Error('Error en la petición, contacte con un administrador.');
         }
 
         const data = await resp.json();
