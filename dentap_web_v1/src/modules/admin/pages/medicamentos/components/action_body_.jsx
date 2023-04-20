@@ -1,0 +1,81 @@
+import { Button } from 'primereact/button';
+import React from 'react'
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { openDialog } from '../../../../../core/store/dialog';
+import { medicamentosInputs } from '../../../../../core/const/medicamentos/medicamentos_content';
+import { startDeleteMedicamento } from '../../../../../core/store/medicamentos/thunk';
+
+export const ActionBody = ({ selectedRowData, concept }) => {
+    const dispatch = useDispatch();
+
+    const editRow = () => {
+        // console.log("Editando fila:", selectedRowData);
+        if (selectedRowData == null) {
+            Swal.fire({
+                title: 'Atención',
+                text: 'Primero seleccione una fila y luego presione el boton.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+
+        console.log("Editando fila:", selectedRowData[0].nombre);
+
+        const content = medicamentosInputs(selectedRowData[0].id, selectedRowData[0].nombre, selectedRowData[0].descripcion, selectedRowData[0].precio);
+
+        dispatch(openDialog(
+            {
+                open: true,
+                title: 'Editar',
+                content: content,
+                modificar: true,
+            }
+        ));
+    };
+
+    const deleteRow = () => {
+        console.log("Eliminando fila:", selectedRowData);
+        if (selectedRowData == null) {
+            Swal.fire({
+                title: 'Atención',
+                text: 'Primero seleccione una fila y luego presione el boton.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: '¿Está seguro que desea eliminar este registro?',
+            text: "No podrá revertir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#D75491',
+            cancelButtonColor: '#54D7C8',
+            confirmButtonText: 'Si, eliminar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(startDeleteMedicamento(selectedRowData[0].id)).then(
+                    Swal.fire(
+                        'Eliminado!',
+                        'El registro ha sido eliminado.',
+                        'success'
+                    )
+                );
+
+            }
+        });
+    }
+
+    // console.log("ROOOOW",rowData);
+    return (
+        <React.Fragment>
+            {/* <Button icon="pi pi-pencil" rounded outlined className="mr-4" onClick={() => editUser(rowData)} /> */}
+            <Button icon="pi pi-pencil" rounded outlined className="mr-4" onClick={() => editRow()} />
+            <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => deleteRow()} />
+            {/* <Button icon="pi pi-trash" rounded outlined severity="danger" /> */}
+        </React.Fragment>
+    );
+}

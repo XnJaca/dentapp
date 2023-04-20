@@ -1,9 +1,11 @@
 import React from 'react'
 import { routesImages } from '../../assets'
 
+import { FiMonitor, FiUser, FiCalendar } from "react-icons/fi";
+
 export const SideBar = () => {
     return (
-        <div className="main-sidebar sidebar-style-2">
+        <div className="main-sidebar sidebar-style-1">
             <aside id="sidebar-wrapper">
                 <div className="sidebar-brand">
                     <a href="index.html"> <img alt="image" src={routesImages.logo} className="header-logo" /> <span
@@ -11,28 +13,34 @@ export const SideBar = () => {
                     </a>
                 </div>
                 <ul className="sidebar-menu">
-                    <li className="menu-header">Main</li>
-                    <li className="dropdown active">
-                        <a href="index.html" className="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
-                    </li>
+                    <li className="menu-header">Principal</li>
                     <li className="dropdown">
-                        <a href="#" className="menu-toggle nav-link has-dropdown"><i
-                            data-feather="briefcase"></i><span>Widgets</span></a>
+                        <a href="index.html" className="nav-link"><i><FiMonitor size={20}></FiMonitor></i><span>Dashboard</span></a>
+                    </li>
+
+                    <li className="menu-header">Administrar</li>
+
+                    <li className="dropdown">
+                        <a href="#" className="menu-toggle nav-link has-dropdown"><i><FiUser size={20}></FiUser></i><span>Usuarios</span></a>
                         <ul className="dropdown-menu">
-                            <li><a className="nav-link" href="widget-chart.html">Chart Widgets</a></li>
-                            <li><a className="nav-link" href="widget-data.html">Data Widgets</a></li>
+                            <li><a className="nav-link" href="#">Personal Administrativo</a></li>
+                            <li><a className="nav-link" href="#">Pacientes</a></li>
                         </ul>
                     </li>
+                    <li className="menu-header">Citas</li>
                     <li className="dropdown">
-                        <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Apps</span></a>
+                        <a href="index.html" className="nav-link"><i><FiCalendar size={20}></FiCalendar></i><span>Citas</span></a>
+                    </li>
+                    {/* <li className="dropdown">
+                        <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Citas</span></a>
                         <ul className="dropdown-menu">
                             <li><a className="nav-link" href="chat.html">Chat</a></li>
                             <li><a className="nav-link" href="portfolio.html">Portfolio</a></li>
                             <li><a className="nav-link" href="blog.html">Blog</a></li>
                             <li><a className="nav-link" href="calendar.html">Calendar</a></li>
                         </ul>
-                    </li>
-                    <li className="dropdown">
+                    </li> */}
+                    {/* <li className="dropdown">
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="mail"></i><span>Email</span></a>
                         <ul className="dropdown-menu">
                             <li><a className="nav-link" href="email-inbox.html">Inbox</a></li>
@@ -208,7 +216,7 @@ export const SideBar = () => {
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> */}
                 </ul>
             </aside>
         </div>

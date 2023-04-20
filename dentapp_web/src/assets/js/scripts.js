@@ -129,7 +129,6 @@ $(function () {
       });
     }
   };
-
   // sticky header toggle function
   var toggle_sticky_header = function (sticky) {
     if (!sticky) {

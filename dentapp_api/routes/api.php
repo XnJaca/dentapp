@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\EspecialidadController;
+use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\TipoUsuarioController;
 use App\Http\Controllers\UsuarioController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,16 +29,29 @@ use Illuminate\Support\Facades\Route;
 
 // Route::resource('usuarios', UsuarioController::class);
 
-// Ruta para login
+// Ruta para login 
+// TODO: validar que venga la data: email y pass mediante un middleware
 Route::post('/login', [AuthController::class, 'login']);
-// Route::resource('login', AuthController::class);
 
-// Crear ruta para usuarios, usuario middleware solo si la request es post, put
-Route::resource('usuarios', UsuarioController::class)->middleware('validate_data');
+Route::resource('usuarios', UsuarioController::class);
 
-// Crear ruta para medicos
-// Route::resource('medicos', MedicoController::class)->middleware('validate_data');
-// Ruta medicos sin middleware
 Route::resource('medicos', MedicoController::class);
+
+Route::resource('generos', GeneroController::class);
+
+Route::resource('tipo_usuarios', TipoUsuarioController::class);
+
 // Ruta especialidades
 Route::resource('especialidades', EspecialidadController::class)->middleware('validate_especialidad');
+
+// Ruta Enfermedades
+Route::resource('enfermedades', EnfermedadController::class);
+
+// Ruta Alergias
+Route::resource('alergias', AlergiaController::class);
+
+Route::resource('medicamentos', MedicamentoController::class);
+
+Route::resource('horarios', HorarioController::class);
+
+// Route::put('/api/enfermedades/{id}', [EnfermedadController::class, 'update']);

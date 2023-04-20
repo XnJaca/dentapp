@@ -1,0 +1,1 @@
+export * from './alergias_content';
