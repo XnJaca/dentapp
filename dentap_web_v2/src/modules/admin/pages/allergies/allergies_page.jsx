@@ -60,11 +60,11 @@ export const AllergiesPage = () => {
               dispatch(deleteAllergy(rowData.id)).then(result => {
                 console.log('Result: ', result);
                 if (result.error) {
-                  showError('Error al modificar el usuario', result.message, 'error');
+                  showError('Error al eliminar alergia', result.message, 'error');
                 } else {
                   Swal.fire(
                     '¡Eliminado!',
-                    'El usuario ha sido eliminado.',
+                    'La alergia ha sido eliminada.',
                     'success'
                   )
                 }

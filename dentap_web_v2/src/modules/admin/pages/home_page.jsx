@@ -22,6 +22,13 @@ export const HomePage = () => {
                     goTo="/admin/allergies"
                     severity={1}
                 />
+
+                <CardContainer
+                    title="Enfermedades"
+                    subTitle="Gestione las enfermedades de la plataforma."
+                    goTo="/admin/diseases"
+                    severity={3}
+                />
                 
                 
                 {/* <div className="card flex  justify-content-center mt-3 p-4">
