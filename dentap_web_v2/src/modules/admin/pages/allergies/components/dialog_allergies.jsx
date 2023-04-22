@@ -7,6 +7,9 @@ import { closeDialog, updateContent } from '../../../../../store/dialog';
 import { CustomCalendar, CustomDropdown, CustomInputNumber, CustomInputSwitch, CustomInputText } from '../../../components/custom_input';
 import moment from 'moment';
 import { saveUser, updateUser } from '../../../../../store/users/user_thunk';
+
+import { updateAllergie,saveAllergie } from '../../../../../store/allergies/allergies_thunk';
+
 import Swal from 'sweetalert2';
 import { CustomInputPassword } from '../../../components/custom_input';
 import { Toast } from 'primereact/toast';
@@ -45,7 +48,7 @@ export const DialogAllergies = () => {
         if (dialog.content.every(campo => campo.value)) {
             if (dialog.modificar) {
                 setLoading(true);
-                dispatch(updateUser(dialog.content)).then(result => {
+                dispatch(updateAllergie(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
                         showError('Error al modificar la alergia', result.message, 'error');
@@ -61,7 +64,7 @@ export const DialogAllergies = () => {
                 });
             } else {
                 setLoading(true);
-                dispatch(saveUser(dialog.content)).then(result => {
+                dispatch(saveAllergie(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
                         showError('Error al guardar la alergia', result.message, 'error');
@@ -106,7 +109,7 @@ export const DialogAllergies = () => {
                     value={campo.value}
                     onChange={(e) => onInputChange(e, campo.name)}
                     submitted={hasEmptyFields}
-                    keyfilter={campo.keyfilter}
+                    // keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
                 />
             );
         }
@@ -139,6 +142,7 @@ export const DialogAllergies = () => {
             <Button
                 label={labelBtn()}
                 icon="pi pi-check"
+                disabled={loading}
                 onClick={saveData}
             />
         </React.Fragment>

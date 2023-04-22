@@ -200,6 +200,7 @@ export const DialogUser = ({ }) => {
             <Button
                 label={labelBtn()}
                 icon="pi pi-check"
+                disabled={loading}
                 onClick={saveData}
             />
         </React.Fragment>

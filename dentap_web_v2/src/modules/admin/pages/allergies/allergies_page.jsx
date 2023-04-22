@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { allergies_inputs, headers_alergia } from '../../../../const';
 import { Card } from 'primereact/card';
@@ -7,18 +7,28 @@ import { Column } from 'primereact/column';
 import { getColumns } from '../../components';
 import { DialogAllergies } from './components/dialog_allergies';
 import { Button } from 'primereact/button';
+import Swal from 'sweetalert2';
+import { openDialog } from '../../../../store/dialog';
+
+import { deleteAllergy, getAllergies } from '../../../../store/allergies/allergies_thunk';
+import { Skeleton } from 'primereact/skeleton';
 
 export const AllergiesPage = () => {
+
+  const dispatch = useDispatch();
+
+  const loading = useSelector(state => state.allergies.loading);
+  const allergies = useSelector(state => state.allergies.allergies);
+
+  useEffect(() => {
+    dispatch(getAllergies());
+  }, []);
 
   const emptyAllergy = {
     id: null,
     nombre: '',
     descripcion: '',
   }
-
-  const dispatch = useDispatch();
-
-  const allergies = useSelector(state => state.allergies.allergies);
 
   const bodyDeleteTemplate = (rowData) => {
     if (allergies.length == 0) {
@@ -47,18 +57,18 @@ export const AllergiesPage = () => {
                   Swal.showLoading()
                 }
               });
-              // dispatch(deleteUser(rowData.id)).then(result => {
-              //   console.log('Result: ', result);
-              //   if (result.error) {
-              //     showError('Error al modificar el usuario', result.message, 'error');
-              //   } else {
-              //     Swal.fire(
-              //       '¡Eliminado!',
-              //       'El usuario ha sido eliminado.',
-              //       'success'
-              //     )
-              //   }
-              // });
+              dispatch(deleteAllergy(rowData.id)).then(result => {
+                console.log('Result: ', result);
+                if (result.error) {
+                  showError('Error al modificar el usuario', result.message, 'error');
+                } else {
+                  Swal.fire(
+                    '¡Eliminado!',
+                    'El usuario ha sido eliminado.',
+                    'success'
+                  )
+                }
+              });
             }
           })
         }} />
@@ -108,12 +118,12 @@ export const AllergiesPage = () => {
 
         <Card title={header} >
           <DataTable
-            value={allergies.length == 0 ? emptyAllergy : allergies}
+            value={allergies}
             editMode="row"
             dataKey="id"
-            tableStyle={{ minWidth: '10rem' }}
+            tableStyle={{ minWidth: '10rem' }}  
+            emptyMessage={loading ? <Skeleton /> : 'No hay alergias registradas'}
           >
-
             <Column exportable={false} />
             {getColumns(headers_alergia, allergies.length == 0 ? true : false)}
             <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
@@ -124,5 +134,7 @@ export const AllergiesPage = () => {
         <DialogAllergies contentForm={allergies_inputs}></DialogAllergies>
       </div>
     </div>
-  );
+  )
+
+
 }

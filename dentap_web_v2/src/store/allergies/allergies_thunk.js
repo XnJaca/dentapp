@@ -1,9 +1,8 @@
-import { setAllergies } from "./allergies_slice";
-import { getAllAllergies } from "./services/allergies_service";
-
-
+import { setAllergies,setLoading } from "./allergies_slice";
+import { getAllAllergies, updateAllergiesService,saveAllergieService,deleteAllergyService } from "./services/allergies_service";
+ 
 export const getAllergies = () => async (dispatch) => {
-
+    dispatch(setLoading(true)); 
     // console.log('getAllergies');
     const response = await getAllAllergies();
 
@@ -17,93 +16,102 @@ export const getAllergies = () => async (dispatch) => {
         ));
     } else {
         // console.log(response.message);
+        dispatch(setLoading(false));
+        return {
+            error: true,
+            message: response.message
+        }
     }
 }
 
-// export const saveAllergy = (allergy) => async (dispatch) => {
 
-//     dispatch(setLoading(true));
-//     // console.log('saveAllergy');
-//     const response = await saveAllergyService(allergy);
+export const updateAllergie = (allergie) => async (dispatch) => {
+ 
+    dispatch(setLoading(true)); 
 
-//     // console.log('response', response);
+    const response = await updateAllergiesService(allergie); 
+      
+    if (response.error == false) {
 
-//     if (response.error == false) {
-//         const data = await getAllAllergies();
-//         dispatch(setAllergies(
-//             {
-//                 allergies: data.allergies,
-//                 message: response.message
-//             }
-//         ));
-//         dispatch(setLoading(false));
-//         return {
-//             error: false,
-//             message: response.message
-//         }
-//     } else {
-//         // console.log(response.message);
-//         return {
-//             error: true,
-//             message: response.message
-//         }
-//     }
-// }
+        const response = await getAllAllergies();
+        // console.log('usuariossss', usuarios);
+        dispatch(setAllergies(
+            {
+                allergies: response.allergies,
+                message: response.message
+            }
+        ));
+        dispatch(setLoading(false));
+        return {
+            error: false,
+            message: response.message
+        }
+    } else {
+        // console.log(response.message);
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+} 
 
-// export const updateAllergy = (allergy) => async (dispatch) => {
 
-//     dispatch(setLoading(true));
-//     // console.log('updateAllergy');
-//     const response = await updateAllergyService(allergy);
+export const saveAllergie = (allergie) => async (dispatch) => {
+ 
+    dispatch(setLoading(true)); 
 
-//     // console.log('responseUpdateAllergy', response);
-//     if (response.error == false) {
-//         const data = await getAllAllergies();
-//         dispatch(setAllergies(
-//             {
-//                 allergies: data.allergies,
-//                 message: response.message
-//             }
-//         ));
-//         dispatch(setLoading(false));
-//         return {
-//             error: false,
-//             message: response.message
-//         }
-//     } else {
-//         // console.log(response.message);
-//         return {
-//             error: true,
-//             message: response.message
-//         }
-//     }
-// }
+    const response = await saveAllergieService(allergie); 
+      
+    if (response.error == false) {
 
-// export const deleteAllergy = (allergy) => async (dispatch) => {
+        const response = await getAllAllergies();
+        // console.log('usuariossss', usuarios);
+        dispatch(setAllergies(
+            {
+                allergies: response.allergies,
+                message: response.message
+            }
+        ));
+        dispatch(setLoading(false));
+        return {
+            error: false,
+            message: response.message
+        }
+    } else {
+        // console.log(response.message);
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+}
+ 
 
-//     dispatch(setLoading(true));
-//     // console.log('deleteAllergy');
-//     const response = await deleteAllergyService(allergy);
+export const deleteAllergy = (allergyId) => async (dispatch) => {
 
-//     // console.log('response', response);
-//     if (response.error == false) {
-//         const data = await getAllAllergies();
-//         dispatch(setAllergies(
-//             {
-//                 allergies: data.allergies,
-//                 message: response.message
-//             }
-//         ));
-//         dispatch(setLoading(false));
-//         return {
-//             error: false,
-//             message: response.message
-//         }
-//     } else {
-//         // console.log(response.message);
-//         return {
-//             error: true,
-//             message: response.message
-//         }
-//     }
-// }
+    dispatch(setLoading(true));
+    // console.log('deleteAllergy');
+    const response = await deleteAllergyService(allergyId);
+
+    // console.log('response', response);
+    if (response.error == false) {
+        const data = await getAllAllergies();
+        dispatch(setAllergies(
+            {
+                allergies: data.allergies,
+                message: response.message
+            }
+        ));
+        dispatch(setLoading(false));
+        return {
+            error: false,
+            message: response.message
+        }
+    } else {
+        // console.log(response.message);
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+}

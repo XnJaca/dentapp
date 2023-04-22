@@ -14,9 +14,12 @@ import { usuario_inputs } from '../../../../const';
 import { openDialog } from '../../../../store/dialog';
 import { getGeneros } from '../../../../store/generos';
 import Swal from 'sweetalert2';
+import { getTipoUsuarios } from '../../../../store/tipo_usuarios/tipo_usuario_thunk';
 
 
-export const UserPage = () => {
+export const UserPage = () => { 
+
+    const usuarios = useSelector(state => state.user.user);  
 
     const emptyUser = [{
         id: null,
@@ -27,13 +30,12 @@ export const UserPage = () => {
 
     const dispatch = useDispatch();
 
-    const [isVisible, setVisible] = useState(false);
+    const [isVisible, setVisible] = useState(false); 
 
-    const usuarios = useSelector(state => state.user.user);
-
-    useEffect(() => {
+    useEffect(() => { 
         dispatch(getUsers());
         dispatch(getGeneros());
+        dispatch(getTipoUsuarios());  
     }, []);
 
     const statusBodyTemplate = (rowData) => {
@@ -106,9 +108,12 @@ export const UserPage = () => {
         );
     };
 
+    //TODO: El tipo de usuario no esta cambiando
+    //TODO: Puede tener varios tipos un usuario?
+
     const rolUsuario = (rowData) => {
         if (usuarios.length == 0) return (<Skeleton></Skeleton>);
-        const rol = rowData.tipo_usuario_x_usuario[0].tipo.descripcion;
+        const rol = rowData.tipo_usuario_x_usuario.map(t=>t.tipo.descripcion).toString(); 
         return rol;
     }
 
@@ -136,7 +141,7 @@ export const UserPage = () => {
                         value={usuarios.length == 0 ? emptyUser : usuarios}
                         editMode="row"
                         dataKey="id"
-                        tableStyle={{ minWidth: '10rem' }}
+                        tableStyle={{ minWidth: '10rem' }} 
                     >
 
                         <Column exportable={false} />

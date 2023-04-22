@@ -6,7 +6,7 @@ export const AllergiesSlice = createSlice({
     initialState: {
         allergies: [],
         message: '',
-        loading: false,
+        loading: true,
         isSaving: false,
     },
 
@@ -26,4 +26,4 @@ export const AllergiesSlice = createSlice({
     }
 })
 
-export const { setAllergies } = AllergiesSlice.actions
+export const { setAllergies,setLoading } = AllergiesSlice.actions

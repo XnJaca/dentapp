@@ -6,15 +6,7 @@ import Swal from 'sweetalert2';
 import { getAllergies } from '../../store/allergies/allergies_thunk';
 
 
-export const AdminScreen = ({ children }) => {
-
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(getTipoUsuarios())
-    dispatch(getAllergies())
-
-  })
+export const AdminScreen = ({ children }) => { 
 
   return (
     <>

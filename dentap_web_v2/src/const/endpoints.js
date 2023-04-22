@@ -9,6 +9,5 @@ export const EndPoint = {
     enfermedades: `${baseUrl}/enfermedades`,
     alergias: `${baseUrl}/alergias`,
     medicamentos: `${baseUrl}/medicamentos`,
-    horarios: `${baseUrl}/horarios`,
-    allergies: `${baseUrl}/alergias`,
+    horarios: `${baseUrl}/horarios`, 
 }
