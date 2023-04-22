@@ -101,9 +101,16 @@ class EspecialidadController extends Controller
      * @param  \App\Models\Especialidad  $especialidad
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Especialidad $especialidad)
+    public function update(Request $request, $id)
     {
         //
+        $especialidad = Especialidad::find($id);
+        $especialidad->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Especialidad actualizada correctamente',
+        ]);
     }
 
     /**
@@ -120,8 +127,7 @@ class EspecialidadController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Especialidad eliminada',
-            'data' => $especialidad
+            'message' => 'Especialidad eliminada.'
         ]);
 
     }

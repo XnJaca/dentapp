@@ -24,17 +24,7 @@ class EnfermedadController extends Controller
             'data' => $enfermedades
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -66,24 +56,26 @@ class EnfermedadController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Enfermedad  $enfermedad
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Enfermedad $enfermedad)
+    public function show($id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Enfermedad  $enfermedad
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Enfermedad $enfermedad)
-    {
-        //
+        $enfermedad = Enfermedad::find($id);
 
 
+        if (!$enfermedad) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Enfermedad no encontrada',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Enfermedad encontrada',
+            'data' => $enfermedad
+        ]);
     }
 
     /**
