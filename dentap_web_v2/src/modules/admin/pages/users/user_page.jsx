@@ -115,8 +115,7 @@ export const UserPage = () => {
         if (usuarios.length == 0) return (<Skeleton></Skeleton>);
         const rol = rowData.tipo_usuario_x_usuario.map(t=>t.tipo.descripcion).toString(); 
         return rol;
-    }
-    // enfermedades medicamento tratamiento tipo de sangre -> paciente
+    } 
 
     const header = () => {
         const content = usuario_inputs("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");

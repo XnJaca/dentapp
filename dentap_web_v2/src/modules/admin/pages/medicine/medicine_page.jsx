@@ -1,42 +1,37 @@
 
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { diseases_inputs, headers_enfermedades } from '../../../../const';
+import { headers_medicamentos } from '../../../../const';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { getColumns } from '../../components';
-import { DialogDisease } from './components/dialog_disease';
+import { DialogMedicine } from './components/dialog_medicine';
 import { Button } from 'primereact/button';
 import Swal from 'sweetalert2';
 import { openDialog } from '../../../../store/dialog';
 
-import { DiseaseThunk } from '../../../../store/diseases/disease_thunk';
+import { MedicineThunk } from '../../../../store/medicine/medicine_thunk';
 import { Skeleton } from 'primereact/skeleton';
+import { medicines_inputs } from '../../../../const/inputs_medicines';
 
-export const DiseasePage = () => {
+export const MedicinePage = () => {
 
-    // medicamento tratamiento tipo de sangre -> paciente
+    // tratamiento tipo de sangre -> paciente
 
     const dispatch = useDispatch();
 
-    const loading = useSelector(state => state.diseases.loading);
-    const diseases = useSelector(state => state.diseases.data);
+    const loading = useSelector(state => state.medicines.loading);
+    const medicines = useSelector(state => state.medicines.data);
 
-    const { deleteDisease, getDiseases } = DiseaseThunk();
+    const { deleteMedicine, getMedicines } = MedicineThunk();
 
     useEffect(() => {
-        dispatch(getDiseases());
-    }, []);
-
-    const emptyValue = {
-        id: null,
-        nombre: '',
-        descripcion: '',
-    }
+        dispatch(getMedicines());
+    }, []); 
 
     const bodyDeleteTemplate = (rowData) => {
-        if (diseases.length == 0) {
+        if (medicines.length == 0) {
             return ""
         }
         return (
@@ -44,7 +39,7 @@ export const DiseasePage = () => {
                 <Button label="Eliminar" iconPos='right' icon="pi pi-trash" className='' severity={'danger'} onClick={() => {
 
                     Swal.fire({
-                        title: '¿Está seguro que desea eliminar esta enfermedad?',
+                        title: '¿Está seguro que desea eliminar este medicamento?',
                         text: "No podrá revertir esta acción!",
                         icon: 'warning',
                         showCancelButton: true,
@@ -62,14 +57,14 @@ export const DiseasePage = () => {
                                     Swal.showLoading()
                                 }
                             });
-                            dispatch(deleteDisease(rowData.id)).then(result => {
+                            dispatch(deleteMedicine(rowData.id)).then(result => {
                                 console.log('Result: ', result);
                                 if (result.error) {
-                                    showError('Error al eliminar la enfermedada', result.message, 'error');
+                                    showError('Error al eliminar el medicamento', result.message, 'error');
                                 } else {
                                     Swal.fire(
                                         '¡Eliminado!',
-                                        'la enfermedada ha sido eliminado.',
+                                        'El medicamento ha sido eliminado.',
                                         'success'
                                     )
                                 }
@@ -83,16 +78,16 @@ export const DiseasePage = () => {
 
     const bodyEditTemplate = (rowData) => {
 
-        if (diseases.length == 0) {
+        if (medicines.length == 0) {
             return ""
         }
 
-        const content = diseases_inputs(rowData.id, rowData.nombre, rowData.descripcion);
+        const content = medicines_inputs(rowData.id, rowData.nombre, rowData.descripcion,rowData.precio);
         return (
             <div className="flex inline-flex justify-content-center gap-2">
                 <Button label='Editar' iconPos='right' icon="pi pi-pencil" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Editar Enfermedad',
+                    title: 'Editar Medicamento',
                     content: content,
                     modificar: true
                 }))} className='' severity={'primary'} />
@@ -101,14 +96,14 @@ export const DiseasePage = () => {
     };
 
     const header = () => {
-        const content = diseases_inputs("", "", "");
+        const content = medicines_inputs("", "", "","");
 
         return <div className='lg:flex justify-content-between'>
-            <h2>Listado de Enfermedades</h2>
+            <h2>Listado de Medicamentos</h2>
             <div className="flex inline-flex justify-content-center gap-2 ">
-                <Button label='Crear Enfermedad' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
+                <Button label='Crear Medicamentos' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Guardar Enfermedad',
+                    title: 'Guardar Medicamentos',
                     content: content,
                     modificar: false
                 }))} className='h-4rem' size='small' severity={'primary'} />
@@ -123,20 +118,20 @@ export const DiseasePage = () => {
 
                 <Card title={header} >
                     <DataTable
-                        value={diseases}
+                        value={medicines}
                         editMode="row"
                         dataKey="id"
                         tableStyle={{ minWidth: '10rem' }}
-                        emptyMessage={loading ? <Skeleton /> : 'No hay enfermedades registradas'}
+                        emptyMessage={loading ? <Skeleton /> : 'No hay medicamentos registradas'}
                     >
                         <Column exportable={false} />
-                        {getColumns(headers_enfermedades, diseases.length == 0 ? true : false)}
+                        {getColumns(headers_medicamentos, medicines.length == 0 ? true : false)}
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyDeleteTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                     </DataTable>
                 </Card>
 
-                <DialogDisease contentForm={diseases_inputs}></DialogDisease>
+                <DialogMedicine contentForm={medicines_inputs}></DialogMedicine>
             </div>
         </div>
     )

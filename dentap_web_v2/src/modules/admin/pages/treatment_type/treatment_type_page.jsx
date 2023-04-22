@@ -1,42 +1,37 @@
 
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { diseases_inputs, headers_enfermedades } from '../../../../const';
+import { headers_medicamentos, headers_tipos_tratamientos } from '../../../../const';
 import { Card } from 'primereact/card';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { getColumns } from '../../components';
-import { DialogDisease } from './components/dialog_disease';
+import { DialogTreatmentType } from './components/dialog_treatment_type';
 import { Button } from 'primereact/button';
 import Swal from 'sweetalert2';
 import { openDialog } from '../../../../store/dialog';
 
-import { DiseaseThunk } from '../../../../store/diseases/disease_thunk';
-import { Skeleton } from 'primereact/skeleton';
+import { TreatmentTypeThunk } from '../../../../store/treatment_type/treatment_type_thunk';
+import { Skeleton } from 'primereact/skeleton'; 
+import { treatment_type_inputs } from '../../../../const/inputs_treatment_type';
 
-export const DiseasePage = () => {
+export const TreatmentTypePage = () => {
 
-    // medicamento tratamiento tipo de sangre -> paciente
+    // tratamiento tipo de sangre -> paciente
 
     const dispatch = useDispatch();
 
-    const loading = useSelector(state => state.diseases.loading);
-    const diseases = useSelector(state => state.diseases.data);
+    const loading = useSelector(state => state.treatmentType.loading);
+    const treatmentType = useSelector(state => state.treatmentType.data);
 
-    const { deleteDisease, getDiseases } = DiseaseThunk();
+    const { deleteTreatmentType,getTreatmentType } = TreatmentTypeThunk();
 
     useEffect(() => {
-        dispatch(getDiseases());
-    }, []);
-
-    const emptyValue = {
-        id: null,
-        nombre: '',
-        descripcion: '',
-    }
+        dispatch(getTreatmentType());
+    }, []); 
 
     const bodyDeleteTemplate = (rowData) => {
-        if (diseases.length == 0) {
+        if (treatmentType.length == 0) {
             return ""
         }
         return (
@@ -44,7 +39,7 @@ export const DiseasePage = () => {
                 <Button label="Eliminar" iconPos='right' icon="pi pi-trash" className='' severity={'danger'} onClick={() => {
 
                     Swal.fire({
-                        title: '¿Está seguro que desea eliminar esta enfermedad?',
+                        title: '¿Está seguro que desea eliminar este tipo de tratamiento?',
                         text: "No podrá revertir esta acción!",
                         icon: 'warning',
                         showCancelButton: true,
@@ -62,14 +57,14 @@ export const DiseasePage = () => {
                                     Swal.showLoading()
                                 }
                             });
-                            dispatch(deleteDisease(rowData.id)).then(result => {
+                            dispatch(deleteTreatmentType(rowData.id)).then(result => {
                                 console.log('Result: ', result);
                                 if (result.error) {
-                                    showError('Error al eliminar la enfermedada', result.message, 'error');
+                                    showError('Error al eliminar el tipo de tratamiento', result.message, 'error');
                                 } else {
                                     Swal.fire(
                                         '¡Eliminado!',
-                                        'la enfermedada ha sido eliminado.',
+                                        'El tipo de tratamiento ha sido eliminado.',
                                         'success'
                                     )
                                 }
@@ -83,16 +78,16 @@ export const DiseasePage = () => {
 
     const bodyEditTemplate = (rowData) => {
 
-        if (diseases.length == 0) {
+        if (treatmentType.length == 0) {
             return ""
         }
 
-        const content = diseases_inputs(rowData.id, rowData.nombre, rowData.descripcion);
+        const content = treatment_type_inputs(rowData.id, rowData.nombre, rowData.descripcion, rowData.precio);
         return (
             <div className="flex inline-flex justify-content-center gap-2">
                 <Button label='Editar' iconPos='right' icon="pi pi-pencil" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Editar Enfermedad',
+                    title: 'Editar tipo de tratamiento',
                     content: content,
                     modificar: true
                 }))} className='' severity={'primary'} />
@@ -101,14 +96,14 @@ export const DiseasePage = () => {
     };
 
     const header = () => {
-        const content = diseases_inputs("", "", "");
+        const content = treatment_type_inputs("", "", "","");
 
         return <div className='lg:flex justify-content-between'>
-            <h2>Listado de Enfermedades</h2>
+            <h2>Listado de tipos de tratamientos</h2>
             <div className="flex inline-flex justify-content-center gap-2 ">
-                <Button label='Crear Enfermedad' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
+                <Button label='Crear tipo de tratamiento' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Guardar Enfermedad',
+                    title: 'Guardar tipo de tratamiento',
                     content: content,
                     modificar: false
                 }))} className='h-4rem' size='small' severity={'primary'} />
@@ -123,20 +118,20 @@ export const DiseasePage = () => {
 
                 <Card title={header} >
                     <DataTable
-                        value={diseases}
+                        value={treatmentType}
                         editMode="row"
                         dataKey="id"
                         tableStyle={{ minWidth: '10rem' }}
-                        emptyMessage={loading ? <Skeleton /> : 'No hay enfermedades registradas'}
+                        emptyMessage={loading ? <Skeleton /> : 'No hay tipo de tratamiento registrados'}
                     >
-                        <Column exportable={false} />
-                        {getColumns(headers_enfermedades, diseases.length == 0 ? true : false)}
+                        <Column exportable={false} /> 
+                        {getColumns(headers_tipos_tratamientos,treatmentType != null && treatmentType.length == 0 ? true : false)}
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyDeleteTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                     </DataTable>
                 </Card>
 
-                <DialogDisease contentForm={diseases_inputs}></DialogDisease>
+                <DialogTreatmentType contentForm={treatment_type_inputs}></DialogTreatmentType>
             </div>
         </div>
     )
