@@ -16,8 +16,10 @@ class AuthController extends Controller
     }
     public function login(Request $request)
     {
+        
         $credentials = $request->only('email', 'pass');
         $usuario = UsuarioController::getUsuarioByEmail($credentials['email']);
+        // dd($usuario);
         if (password_verify($credentials['pass'], $usuario->pass)) {
             return response()->json([
                 'success' => true,

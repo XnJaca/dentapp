@@ -1,4 +1,4 @@
-const baseUrl = 'http://172.20.10.2:8000/api';
+const baseUrl = 'http://localhost:8000/api';
 export const EndPoint = {
     login: `${baseUrl}/login`,
     users: `${baseUrl}/users`,
