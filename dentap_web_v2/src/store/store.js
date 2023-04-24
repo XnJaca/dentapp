@@ -5,6 +5,10 @@ import { DialogSlice } from "./dialog";
 import { GenerosSlice } from "./generos";
 import { TipoUsuarioSlice } from "./tipo_usuarios/tipo_usuario_slice";
 import { AllergiesSlice } from "./allergies/allergies_slice";
+import { DiseaseSlice } from "./diseases/diseases_slice";
+import { MedicineSlice } from "./medicine/medicine_slice";
+import { TreatmentSlice } from "./treatment/treatment_slice";
+import { TreatmentTypeSlice } from "./treatment_type/treatment_type_slice";
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +18,9 @@ export const store = configureStore({
         genero: GenerosSlice.reducer,
         tipoUsuarios: TipoUsuarioSlice.reducer,
         allergies: AllergiesSlice.reducer,
+        diseases: DiseaseSlice.reducer,
+        medicines: MedicineSlice.reducer,
+        treatment: TreatmentSlice.reducer,
+        treatmentType: TreatmentTypeSlice.reducer,
     }
 })

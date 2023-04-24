@@ -30,8 +30,28 @@ const headers_horarios = [
     {field: "id", header: "Id"},
     { field: "dia", header: "Dia" },
     { field: "hora_inicio", header: "Hora Inicio" },
-    { field: "hora_final", header: "Hora Final" },
-
+    { field: "hora_final", header: "Hora Final" }, 
 ]
 
-export { headers_usuarios, headers_enfermedades, headers_alergia, headers_medicamentos, headers_horarios};
+const headers_tipos_tratamientos = [
+    { field: "id", header: "Id" },
+    { field: "nombre", header: "Nombre" },
+    { field: "descripcion", header: "Descripcion" },
+    { field: "precio", header: "Precio" },
+];
+
+const headers_tratamientos = [
+    { field: "id", header: "Id" },
+    { field: "medico_id", header: "Medico" },
+    { field: "tipo_id", header: "Tipo tratamiento" },
+    { field: "detalle", header: "Detalle" },
+    { field: "total_medicamento", header: "Total Medicamento" },
+];  
+
+
+export { 
+    headers_usuarios, headers_enfermedades, 
+    headers_alergia, headers_medicamentos, 
+    headers_horarios, headers_tipos_tratamientos,
+    headers_tratamientos
+};

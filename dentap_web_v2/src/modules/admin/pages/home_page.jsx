@@ -9,7 +9,7 @@ export const HomePage = () => {
     return (
         <>
             <div className="card lg:flex justify-content-center">
-                <CardContainer 
+                <CardContainer
                     title="Usuarios"
                     subTitle="Gestione los usuarios de la plataforma."
                     goTo="/admin/users"
@@ -22,8 +22,29 @@ export const HomePage = () => {
                     goTo="/admin/allergies"
                     severity={1}
                 />
-                
-                
+
+                <CardContainer
+                    title="Enfermedades"
+                    subTitle="Gestione las enfermedades de la plataforma."
+                    goTo="/admin/diseases"
+                    severity={3}
+                />
+
+                <CardContainer
+                    title="Medicamentos"
+                    subTitle="Gestione los medicamentos de la plataforma."
+                    goTo="/admin/medicine"
+                    severity={0}
+                />
+
+                <CardContainer
+                    title="Tratamientos"
+                    subTitle="Gestione los tratamientos de la plataforma."
+                    goTo="/admin/treatment"
+                    severity={1}
+                />
+
+
                 {/* <div className="card flex  justify-content-center mt-3 p-4">
                     <Card title="Usuarios" subTitle="Gestione los usuarios de la plataforma." footer={footer(0, "/admin/users")} className="shadow-5 md:w-15rem">
                     </Card>
