@@ -16,8 +16,6 @@ class Paciente extends Model
     protected $fillable = [
         'id',
         'tipo_sangre_id',
-        'alergia_paciente_id',
-        'enfermedad_paciente_id'
     ];
 
     // Relation with tipoSangre
@@ -27,10 +25,7 @@ class Paciente extends Model
     }
 
     // Relation with alergiaPaciente
-    public function alergiaPaciente()  
-    {
-        return $this->belongsTo(AlergiaPaciente::class);
-    }
+
 
     // Relation with enfermedadPaciente
     public function enfermedadPaciente()
@@ -39,14 +34,26 @@ class Paciente extends Model
     }
 
     // Relation with citapaciente
-    public function citaPaciente()
+    public function citas()
     {
-        return $this->hasMany(CitaPaciente::class);
+        return $this->hasManyThrough(
+            Cita::class,
+            CitaPaciente::class,
+            'paciente_id',
+            'id',
+            'id',
+            'cita_id'
+        )->with('tratamiento');
     }
+
 
     // Relation with usuario
     public function usuario()
     {
         return $this->hasOne(Usuario::class, 'id', 'id');
+    }
+    public function alergias()
+    {
+        return $this->hasManyThrough(Alergia::class, AlergiaPaciente::class, 'paciente_id', 'id', 'id', 'alergia_id');
     }
 }

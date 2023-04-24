@@ -84,17 +84,6 @@ class EspecialidadController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Especialidad  $especialidad
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Especialidad $especialidad)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

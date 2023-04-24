@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alergia;
 use App\Models\AlergiaPaciente;
 use Illuminate\Http\Request;
 
@@ -42,11 +43,21 @@ class AlergiaPacienteController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\AlergiaPaciente  $alergiaPaciente
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(AlergiaPaciente $alergiaPaciente)
+    public function show($userId)
     {
-        //
+        //  
+        $alergias = AlergiaPaciente::select('alergia_id')
+            ->where('paciente_id', $userId)
+            ->with('alergia')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Alergias del paciente',
+            'data' => $alergias
+        ], 200);
     }
 
     /**

@@ -14,9 +14,9 @@ class Cita extends Model
 
     protected $fillable = [
         'id',
-        'fecha',
+        'inicio_cita',
+        'fin_cita',
         'confirmado',
-        'finalizado',
         'consultorio_id',
         'medico_id'
     ];
@@ -40,8 +40,8 @@ class Cita extends Model
     }
 
     //relation with tratamientoCita
-    public function tratamientoCita()
+    public function tratamiento()
     {
-        return $this->hasMany(TratamientoCita::class);
+        return $this->belongsTo(Tratamiento::class);
     }
 }

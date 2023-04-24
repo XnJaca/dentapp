@@ -22,9 +22,9 @@ class Tratamiento extends Model
     ];
 
     // Relation with tratamirntocita
-    public function tratamientoCita()
+    public function cita()
     {
-        return $this->hasMany(TratamientoCita::class);
+        return $this->hasOne(Cita::class);
     }
 
     // Relation with medico

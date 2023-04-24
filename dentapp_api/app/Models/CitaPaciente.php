@@ -29,7 +29,7 @@ class CitaPaciente extends Model
     // Relation with paciente
     public function paciente()
     {
-        return $this->belongsTo(Paciente::class);
+        return $this->hasMany(Paciente::class);
     }
 
     // Relation with tratamiento

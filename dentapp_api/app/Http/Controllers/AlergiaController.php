@@ -26,16 +26,6 @@ class AlergiaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,23 +57,28 @@ class AlergiaController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Alergia  $alergia
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Alergia $alergia)
+    public function show($id)
     {
         //
+        $alergia = Alergia::find($id);
+
+
+        if (!$alergia) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alergia no encontrada',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Alergia encontrada',
+            'data' => $alergia
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Alergia  $alergia
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Alergia $alergia)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

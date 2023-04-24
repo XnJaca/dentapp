@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlergiaController;
+use App\Http\Controllers\AlergiaPacienteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\EspecialidadController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\TipoUsuarioController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -50,8 +52,12 @@ Route::resource('enfermedades', EnfermedadController::class);
 // Ruta Alergias
 Route::resource('alergias', AlergiaController::class);
 
+Route::resource('alergias_pacientes', AlergiaPacienteController::class);
+
 Route::resource('medicamentos', MedicamentoController::class);
 
 Route::resource('horarios', HorarioController::class);
+
+Route::resource('pacientes', PacienteController::class);
 
 // Route::put('/api/enfermedades/{id}', [EnfermedadController::class, 'update']);

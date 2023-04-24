@@ -17,8 +17,14 @@ class MedicoController extends Controller
     public function index()
     {
         //Obtener todos los medicos + usuario + tipoUsuarioxUsuario + genero + tipoUsuario
-        $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo', 'especialidad')->get();
-
+        // $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo', 'especialidad')->get();
+        $medicos = Medico::with('usuario.genero','usuario.tipoUsuarioXUsuario.tipo')->get()->map(function ($medico) {
+            $tipo_usuario = $medico->usuario->tipoUsuarioXUsuario->first()->tipo->descripcion;
+            $usuario_data = $medico->usuario->makeHidden('tipoUsuarioXUsuario')->toArray();
+            $genero_usuario = $medico->usuario->genero->descripcion;
+            $medico_data = $medico->makeHidden('usuario')->toArray();
+            return array_merge($usuario_data, $medico_data,['genero' => $genero_usuario], ['tipo_usuario' => $tipo_usuario]);
+        });
         return response()->json([
             'success' => true,
             'message' => 'Lista de medicos',
