@@ -1,11 +1,13 @@
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { closeDialog, updateContent } from '../../../../../store/dialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { CustomCalendar, CustomDropdown, CustomInputSwitch, CustomInputText } from '../../../components';
 import { Calendar } from 'primereact/calendar';
+import { MedicThunk } from '../../../../../store/medics/medic_thunk';
+import moment from 'moment';
 
 export const DialogAppoiment = () => {
     const [hasEmptyFields, setHasEmptyFields] = useState(false);
@@ -19,14 +21,22 @@ export const DialogAppoiment = () => {
 
     // const { updateDisease, saveDisease } = DiseaseThunk();
 
+    
     const dispatch = useDispatch();
-
+    const medics = MedicThunk();
     const dialog = useSelector(state => state.dialog);
-    const medicos = useSelector(state => state.medicos.medicos);
+    const medicos = useSelector(state => state.medic.data);
 
+
+    useEffect(() => {
+        dispatch(medics.getMedics())
+    }, [])
+
+    console.log('Dialog: ', dialog);
     const hideDialog = () => {
         setHasEmptyFields(false);
         dispatch(closeDialog());
+        
     };
 
     const showError = (title, message, severity) => {
@@ -83,9 +93,10 @@ export const DialogAppoiment = () => {
         let value = e.target.value;
         const updatedContent = dialog.content.map(campo => {
             if (campo.name === nombre) {
-                if (campo.name == 'fecha_nacimiento') {
+                if (campo.name == 'inicio_cita') {
                     console.log('Fecha: ', value);
-                    value = moment(value).format('YYYY-MM-DD');
+                    value = moment(value).format('YYYY-MM-DD HH:mm:ss');
+                    console.log('Fecha Actual: ', value);
                 }
                 return { ...campo, value: value };
             }
@@ -94,6 +105,16 @@ export const DialogAppoiment = () => {
 
         dispatch(updateContent(updatedContent));
     };
+
+
+
+    const getDataMedic = () => {
+        let data = [];
+        medics.data.map((medico) => {
+            data.push({ id: medico.id, descripcion:medico.nombre })
+        })
+        return data;
+    }
 
     const customInputs = dialog.content != null ? dialog.content.map((campo, index) => {
         if (campo.type == 'text' || campo.type == 'int') {
@@ -116,9 +137,23 @@ export const DialogAppoiment = () => {
                 onChange={(e) => onInputChange(e, campo.name)}
                 submitted={hasEmptyFields}
                 key={index}
-                showTime={false}
+                showTime={true}
                 hourFormat="24"
             />
+            )
+        }else if (campo.type == 'select'){
+            return (
+                <CustomDropdown
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    value={campo.value}
+                    name={campo.name}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    submitted={hasEmptyFields}
+                    options={getDataMedic()}
+                    optionLabel="descripcion"
+                />
             )
         }
     }) : null;
@@ -174,27 +209,42 @@ export const DialogAppoiment = () => {
             >
 
                 <div className="formgrid grid">
-                    <div className="flex-auto mr-2">
+                    {customInputs}
+                    {/* <div className="flex-auto mr-2">
                         <label htmlFor="calendar-24h" className="font-bold block mb-2">
                             Hora Inicio
                         </label>
-                        <Calendar id="calendar-24h" value={dateTimeFI} onChange={(e) => setDateTimeFI(e.value)} showTime hourFormat="24" />
+                        <Calendar 
+                            id="calendar-24h" 
+                            value={dateTimeFI} 
+                            onChange={(e) => setDateTimeFI(e.value)} 
+                            showTime hourFormat="24" />
                     </div>
                     <div className="flex-auto">
                         <label htmlFor="calendar-24h" className="font-bold block mb-2">
                             Hora Fin
                         </label>
-                        <Calendar id="calendar-24h" value={dateTimeFF} onChange={(e) => setDateTimeFF(e.value)} showTime hourFormat="24" />
+                        <Calendar 
+                            id="calendar-24h" 
+                            value={dateTimeFF} 
+                            onChange={(e) => setDateTimeFF(e.value)} 
+                            showTime hourFormat="24" />
                     </div>
                     <CustomInputSwitch
-                        id="confirmado"
-                        label="Switch"
-                        value={true}
-                        onChange={(e) => console.log(e.value)}
+                        // id={dialog[0].id}
+                        label={(dialog.content != null) ? dialog.content[2].label : 'Confirmado'}
+                        value={(dialog.content != null) ? dialog.content[2].value : false}
+                        name={(dialog.content != null) ? dialog.content[2].name :'confirmado'}
+                        onChange={(e) => onInputChange(e, 'confirmado')}
                     />
-
-
-
+                    <CustomDropdown
+                        // id={index}
+                        label="Seleccione un medico"
+                        name="medico_id"
+                        value={getDataMedic()}
+                        options={getDataMedic()}
+                        onChange={(e) => onInputChange(e, 'medico_id')}
+                    /> */}
                 </div>
                 {/* {hasError && showError()} */}
 

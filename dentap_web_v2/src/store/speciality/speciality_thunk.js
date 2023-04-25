@@ -1,25 +1,22 @@
-
 import { useSelector } from "react-redux";
-import { setData, setLoading } from "./diseases_slice";
-import { getAllDiseases, deleteDiseaseService, saveDiseaseService, updateDiseaseService } from "./services/disease_service";
+import { setLoading, setData } from "./speciality_slice";
+import { deleteSpecialityService, getAllSpeciality, saveSpecialityService, updateSpecialityService } from "./service/speciality_service";
 
-const UpdateDisease = (disease) => {
+
+const updateSpecialityData = (speciality) => {
     return {
-        id: disease[0].id,
-        nombre: disease[0].value,
-        descripcion: disease[1].value,
-    }
+        descripcion: speciality[2].value
+    };
 }
- 
-
-export const DiseaseThunk = () => {
-
-    const { data } = useSelector(state => state.diseases);
 
 
-    const getDiseases = () => async (dispatch) => {
-        dispatch(setLoading(true));
-        const response = await getAllDiseases();
+export const SpecialityThunk = () => {
+
+    const { data } = useSelector(state => state.speciality);
+
+    const getSpeciality = () => async (dispatch) => {
+
+        const response = await getAllSpeciality();
 
         if (response.error == false) {
             dispatch(setData(
@@ -29,25 +26,47 @@ export const DiseaseThunk = () => {
                 }
             ));
         } else {
+            console.log(response.message);
+        }
+    }
+
+    const saveSpeciality = (medic) => async (dispatch) => {
+
+        dispatch(setLoading(true));
+        const response = await saveSpecialityService(medic);
+
+        if (response.error == false) {
+            const data = await getAllSpeciality();
+            dispatch(setData(
+                {
+                    data: data.data,
+                    message: response.message
+                }
+            ));
             dispatch(setLoading(false));
+            return {
+                error: false,
+                message: response.message
+            }
+        } else {
             return {
                 error: true,
                 message: response.message
             }
         }
     }
-
-    const saveDisease = (allergie) => async (dispatch) => {
+    const updateSpeciality = (speciality) => async (dispatch) => {
 
         dispatch(setLoading(true));
-
-        const response = await saveDiseaseService(allergie);
+        const response = await updateSpecialityService(speciality);
 
         if (response.error == false) {
-            const response = await getAllDiseases();
+
+            const dataList = data.map(d => d.id == speciality[0].id ? updateSpecialityData(speciality) : d);
+
             dispatch(setData(
                 {
-                    data: response.data,
+                    data: dataList,
                     message: response.message
                 }
             ));
@@ -64,47 +83,17 @@ export const DiseaseThunk = () => {
         }
     }
 
-    const updateDisease = (disease) => async (dispatch) => {
+    const deleteSpeciality = (medic) => async (dispatch) => {
 
         dispatch(setLoading(true));
-
-        const response = await updateDiseaseService(disease);
-
-        if (response.error == false) {
-            const dataDisease = data.map(d => d.id == disease[0].id ? UpdateDisease(disease) : d);
-
-            dispatch(setData(
-                {
-                    data: dataDisease,
-                    message: "Enfermedad actualizada correctamente"
-                }
-            ));
-            dispatch(setLoading(false));
-            return {
-                error: false,
-                message: response.message
-            }
-        } else {
-            return {
-                error: true,
-                message: response.message
-            }
-        }
-    }
-
-    const deleteDisease = (allergyId) => async (dispatch) => {
-
-        dispatch(setLoading(true));
-        const response = await deleteDiseaseService(allergyId);
+        const response = await deleteSpecialityService(medic);
 
         if (response.error == false) {
-
-            const dataDisease = data.filter(d => d.id != allergyId);
-
+            const dataList = data.filter(d => d.id != id);
             dispatch(setData(
                 {
-                    data: dataDisease,
-                    message: "Enfermedad eliminada correctamente"
+                    data: dataList,
+                    message: response.message
                 }
             ));
             dispatch(setLoading(false));
@@ -123,10 +112,12 @@ export const DiseaseThunk = () => {
     return {
         //Constantes
         data,
+
         //Metodos 
-        updateDisease,
-        deleteDisease,
-        saveDisease,
-        getDiseases
+        getSpeciality,
+        saveSpeciality,
+        updateSpeciality,
+        deleteSpeciality,
     }
-} 
+}
+

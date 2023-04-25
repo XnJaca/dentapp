@@ -30,8 +30,8 @@ export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_i
             onChange: null,
             autoFocus: false,
             submitted: null,
-            type: "text",
-            keyfilter: 'checkbox'
+            type: "checkbox",
+            keyfilter: ''
         },
         {
             id: "",
@@ -41,19 +41,19 @@ export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_i
             onChange: null,
             autoFocus: false,
             submitted: null,
-            type: "text",
-            keyfilter: 'select'
+            type: "select",
+            keyfilter: ''
         },
         {
-            id: "",
+            id: medico_id || "",
             label: "Medico",
             name: "medico_id",
             value: medico_id || "",
             onChange: null,
             autoFocus: false,
             submitted: null,
-            type: "text",
-            keyfilter: 'select'
+            type: "select",
+            keyfilter: ''
         },
         {
             id: "",
@@ -63,8 +63,8 @@ export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_i
             onChange: null,
             autoFocus: false,
             submitted: null,
-            type: "text",
-            keyfilter: 'select'
+            type: "select",
+            keyfilter: ''
         },
 
     ]

@@ -57,6 +57,22 @@ const headers_pacientes = [
     { field: "telefono", header: "Telefono" },
     // { field: "estado", header: "Estado" },
 ];
+ 
+
+const headers_medicos = [
+    { field: "id", header: "Id" },
+    { field: "cedula", header: "Cedula" },
+    { field: "nombre", header: "Nombre" },
+    { field: "apellido_1", header: "Apellidos" },
+    { field: "email", header: "Email" },
+    { field: "telefono", header: "Telefono" }, 
+    { field: "especialidad.descripcion", header: "Especialidad" }, 
+];
+
+const headers_especialidad = [
+    { field: "id", header: "Id" },
+    { field: "descripcion", header: "Descripcion" }, 
+];
 
 const headers_citas = [
     { field: "id", header: "Id" },
@@ -73,5 +89,6 @@ export {
     headers_alergia, headers_medicamentos, 
     headers_horarios, headers_tipos_tratamientos,
     headers_tratamientos, headers_pacientes,
-    headers_citas
+    headers_citas,headers_medicos, 
+    headers_especialidad
 };

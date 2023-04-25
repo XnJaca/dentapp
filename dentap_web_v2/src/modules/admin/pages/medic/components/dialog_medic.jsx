@@ -1,29 +1,34 @@
+import React, {useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 
+import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import React, {  useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { closeDialog, updateContent } from '../../../../../store/dialog';
-import {  CustomInputText } from '../../../components/custom_input';
+import Swal from 'sweetalert2';
 import moment from 'moment'; 
-
-import Swal from 'sweetalert2'; 
-import { Toast } from 'primereact/toast';
-import { DiseaseThunk } from '../../../../../store/diseases/disease_thunk';
-
+import { closeDialog, updateContent } from '../../../../../store/dialog';
+import { CustomCalendar, CustomDropdown, CustomInputNumber, CustomInputSwitch, CustomInputText, CustomInputPassword } from '../../../components/custom_input';
+import { MedicThunk } from '../../../../../store/medics/medic_thunk';
 
 
-export const DialogDisease = () => {
+
+export const DialogMedic = () => {
 
     const [hasEmptyFields, setHasEmptyFields] = useState(false);
     const [loading, setLoading] = useState(false);
-    const toast = useRef(null); 
+    const toast = useRef(null);
+    const [hasError, setHasError] = useState(false);
 
-    const { updateDisease, saveDisease } = DiseaseThunk();
+    const {saveMedic,updateMedic} = MedicThunk();
 
     const dispatch = useDispatch();
 
-    const dialog = useSelector(state => state.dialog); 
+    const dialog = useSelector(state => state.dialog);
+    const generos = useSelector(state => state.genero);
+    const tipoUsuarios = useSelector(state => state.tipoUsuarios);
+    const user = useSelector(state => state.user.loading);
+
+    const speciality = useSelector(state => state.speciality);
 
     const hideDialog = () => {
         setHasEmptyFields(false);
@@ -45,39 +50,39 @@ export const DialogDisease = () => {
         if (dialog.content.every(campo => campo.value)) {
             if (dialog.modificar) {
                 setLoading(true);
-                dispatch(updateDisease(dialog.content)).then(result => {
+                dispatch(updateMedic(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        showError('Error al modificar la enfermedada', result.message, 'error');
+                        showError('Error al modificar el usuario', result.message, 'error'); 
                     } else {
                         Swal.fire(
                             '¡Actualizado!',
-                            'La enfermedad ha sido actualizada.',
+                            'El usuario ha sido actualizado.',
                             'success'
-                        )
-                        setLoading(false);
+                        ) 
                         hideDialog();
                     }
+                    setLoading(false);
                 });
             } else {
+                //TODO: FOREIGN CONSTRAINTS con la cedula <- no se puede repetir
                 setLoading(true);
-                dispatch(saveDisease(dialog.content)).then(result => {
+                dispatch(saveMedic(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        showError('Error al guardar la enfermedad', result.message, 'error');
+                        showError('Error al guardar el usuario', result.message, 'error'); 
                     } else {
                         Swal.fire(
                             '¡Guardado!',
-                            'La enfermedad ha sido guardado.',
+                            'El usuario ha sido guardado.',
                             'success'
-                        )
-                        setLoading(false);
+                        ) 
                         hideDialog();
                     }
+                    setLoading(false);
                 });
             }
         }
-
     }
 
     const onInputChange = (e, nombre) => {
@@ -96,6 +101,16 @@ export const DialogDisease = () => {
         dispatch(updateContent(updatedContent));
     };
 
+    const selectData = (campo) =>{ 
+        if(campo == 'genero_id'){
+            return generos.generos;
+        }else if(campo == 'tipo_id'){
+            return tipoUsuarios.tipo_usuario;
+        }else{
+            return speciality.data;
+        }
+    }
+
     const customInputs = dialog.content != null ? dialog.content.map((campo, index) => {
         if (campo.type == 'text' || campo.type == 'int') {
             return (
@@ -106,9 +121,69 @@ export const DialogDisease = () => {
                     value={campo.value}
                     onChange={(e) => onInputChange(e, campo.name)}
                     submitted={hasEmptyFields}
-                // keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
+                    keyfilter={campo.keyfilter}
                 />
             );
+        } else if (campo.type == 'pass' && !dialog.modificar) {
+            return (
+                <CustomInputPassword
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    value={campo.value}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    submitted={hasEmptyFields}
+                    keyfilter={campo.keyfilter}
+                />
+            );
+        } else if (campo.type == 'number') {
+            return (
+                <CustomInputNumber
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    value={campo.value}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    submitted={hasEmptyFields}
+                    keyfilter={campo.keyfilter}
+                />
+            );
+        } else if (campo.type == 'select') {
+            return (
+                <CustomDropdown
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    value={campo.value}
+                    onChange={(e) => onInputChange(e, campo.name)} //setSelectedGenero(e.value)
+                    options={selectData(campo.name)}
+                    optionLabel="descripcion"
+                    submitted={hasEmptyFields}
+                    name={campo.name}
+
+                />
+            );
+        } else if (campo.type == 'checkbox') {
+            return (
+                <CustomInputSwitch
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    checked={(campo.value == 0) ? false : true} />
+            );
+        } else if (campo.type == 'date') {
+            return (
+                <CustomCalendar
+                    key={index}
+                    id={campo.name}
+                    label={campo.label}
+                    value={campo.value}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    submitted={hasEmptyFields}
+                    name={campo.name}
+                />
+            )
         }
     }) : null;
 
