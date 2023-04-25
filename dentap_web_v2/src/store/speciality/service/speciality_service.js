@@ -26,7 +26,7 @@ export const getAllSpeciality = async () => {
 export const saveSpecialityService = async (speciality) => {
  
     let json = { 
-        'descripcion': speciality[1].value,  
+        'descripcion': speciality[0].value,  
     };
 
     try {
@@ -61,7 +61,7 @@ export const saveSpecialityService = async (speciality) => {
 export const updateSpecialityService = async (speciality) => {
     
     let json = { 
-        'descripcion': speciality[1].value,  
+        'descripcion': speciality[0].value,  
     };
     try { 
         const response = await FetchToApi({

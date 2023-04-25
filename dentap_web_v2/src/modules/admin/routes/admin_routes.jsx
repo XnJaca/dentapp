@@ -25,6 +25,7 @@ export const AdminRoutes = () => {
             <Route path="/admin/treatmenttype" element={<AdminScreen><TreatmentTypePage /></AdminScreen>} />
             <Route path="/admin/citas" element={<AdminScreen><AppoimentsPage /></AdminScreen>} /> 
             <Route path="/admin/medics" element={<AdminScreen><MedicsPage /></AdminScreen>} />
+            <Route path="/admin/patients" element={<AdminScreen><PatientsPage /></AdminScreen>} />
             <Route path="/admin/speciality" element={<AdminScreen><SpecialityPage /></AdminScreen>} />
             {/*  <Route path="/admin/enfermedades" element={<AdminPage><EnfermedadesPage /></AdminPage>} />
             <Route path="/admin/alergias" element={<AdminPage><AlergiasPage /></AdminPage>} />

@@ -32,7 +32,7 @@ export const SpecialityPage = () => {
     const { getDiseases } = DiseaseThunk();
     const { getMedics } = MedicThunk();
 
-    const { getSpeciality } = SpecialityThunk();
+    const { getSpeciality,deleteSpeciality } = SpecialityThunk();
 
     useEffect(() => {
         dispatch(getMedics());
@@ -62,7 +62,7 @@ export const SpecialityPage = () => {
                 <Button label="Eliminar" iconPos='right' icon="pi pi-trash" className='' severity={'danger'} onClick={() => {
 
                     Swal.fire({
-                        title: '¿Está seguro que desea eliminar este usuario?',
+                        title: '¿Está seguro que desea eliminar este especialidad?',
                         text: "No podrá revertir esta acción!",
                         icon: 'warning',
                         showCancelButton: true,
@@ -80,13 +80,13 @@ export const SpecialityPage = () => {
                                     Swal.showLoading()
                                 }
                             });
-                            dispatch(deletePatient(rowData.id)).then(result => {
+                            dispatch(deleteSpeciality(rowData.id)).then(result => {
                                 if (result.error) {
-                                    showError('Error al modificar el usuario', result.message, 'error');
+                                    showError('Error al modificar el especialidad', result.message, 'error');
                                 } else {
                                     Swal.fire(
                                         '¡Eliminado!',
-                                        'El usuario ha sido eliminado.',
+                                        'El especialidad ha sido eliminado.',
                                         'success'
                                     )
                                 }
@@ -104,14 +104,14 @@ export const SpecialityPage = () => {
         if (specality.length == 0) {
             return ""
         }
-
-        const content = speciality_inputs(rowData.descripcion);
+        console.log(rowData)
+        const content = speciality_inputs(rowData.id,rowData.descripcion);
 
         return (
             <div className="flex inline-flex justify-content-center gap-2">
                 <Button label='Editar' iconPos='right' icon="pi pi-pencil" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Editar Paciente',
+                    title: 'Editar especialidad',
                     content: content,
                     modificar: true
                 }))} className='' severity={'primary'} />
@@ -123,7 +123,7 @@ export const SpecialityPage = () => {
     };
     const header = () => {
 
-        const content = medics_inputs("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+        const content = speciality_inputs("","");
 
         return <div className='lg:flex justify-content-between'>
             <h2>Listado de Especialidades</h2>
@@ -151,8 +151,7 @@ export const SpecialityPage = () => {
                         emptyMessage={loading ? <Skeleton /> : 'Esta todo muy vacio aqui :('}
                     >
                         <Column exportable={false} />
-                        {getColumns(headers_especialidad, specality.length == 0 ? true : false)}
-                        <Column field="estado" header="Estado" body={specality.length == 0 ? skeleton : statusBodyTemplate} style={{ width: '10%' }}></Column>
+                        {getColumns(headers_especialidad, specality.length == 0 ? true : false)} 
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyDeleteTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                     </DataTable>

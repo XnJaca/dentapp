@@ -19,10 +19,10 @@ const isValid = (submitted, value) => {
     return defaultClass;
 }
 
-export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilter }) => {
+export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilter, className = "field col-12 md:col-4"}) => {
 
     return (
-        <div className="field col-12 md:col-4">
+        <div className={className}>
             <label htmlFor={id}>{label}</label>
             <InputText keyfilter={keyfilter} id={id} value={value} type="text" onChange={onChange} className={classNames({ 'p-invalid': submitted && !value })} />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}

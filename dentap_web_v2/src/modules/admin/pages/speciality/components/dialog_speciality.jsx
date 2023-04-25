@@ -101,11 +101,12 @@ export const DialogSpeciality = () => {
                 <CustomInputText
                     key={index}
                     id={campo.id}
+                    className='field col-12 md:col-12'
                     label={campo.label}
                     value={campo.value}
                     onChange={(e) => onInputChange(e, campo.name)}
                     submitted={hasEmptyFields}
-                    keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
+                    // keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
                 />
             );
         }
@@ -151,7 +152,7 @@ export const DialogSpeciality = () => {
             <Dialog
                 header={dialog.title}
                 visible={dialog.open}
-                style={{ width: '50vw' }}
+                style={{ width: '35vw' }}
                 breakpoints={{ '960px': '75vw', '641px': '90vw', '480px': '100vw' }}
                 onHide={hideDialog}
                 footer={DialogFooter}
@@ -161,10 +162,9 @@ export const DialogSpeciality = () => {
                 modal={false}
             >
 
-                <div className="formgrid grid" style={{ width: '50vw' }}>
+                <div className="formgrid grid">
                     {customInputs}
-                </div>
-                {/* {hasError && showError()} */}
+                </div> 
 
             </Dialog >
         </>

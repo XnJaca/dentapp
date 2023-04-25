@@ -5,7 +5,8 @@ import { deleteSpecialityService, getAllSpeciality, saveSpecialityService, updat
 
 const updateSpecialityData = (speciality) => {
     return {
-        descripcion: speciality[2].value
+        id: speciality[0].id,
+        descripcion: speciality[0].value
     };
 }
 
@@ -83,10 +84,10 @@ export const SpecialityThunk = () => {
         }
     }
 
-    const deleteSpeciality = (medic) => async (dispatch) => {
+    const deleteSpeciality = (id) => async (dispatch) => {
 
         dispatch(setLoading(true));
-        const response = await deleteSpecialityService(medic);
+        const response = await deleteSpecialityService(id);
 
         if (response.error == false) {
             const dataList = data.filter(d => d.id != id);
