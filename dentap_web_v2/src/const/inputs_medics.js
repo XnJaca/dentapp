@@ -1,5 +1,5 @@
 
-export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apellido_2, email, pass, fecha_nacimiento, direccion, telefono, telefono_emer, genero_id, estado, tipo_id) => {
+export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apellido_2, email, pass, fecha_nacimiento, direccion, telefono, telefono_emer, genero_id, estado, tipo_id,especialidad_id, precio_consulta) => {
     return [
         {
             id: id || "",
@@ -13,7 +13,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             keyfilter: "int",
         },
         {
-            id: "",
+            id: "nombre",
             label: "Nombre",
             name: "nombre",
             value: nombre || "",
@@ -24,7 +24,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             keyfilter: 'alpha'
         },
         {
-            id: "",
+            id: "nombre_emer",
             label: "Nombre de emergencia",
             name: "nombre_emer",
             value: nombre_emer || "",
@@ -35,7 +35,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             keyfilter: 'alpha'
         },
         {
-            id: "",
+            id: "apellido_1",
             label: "Primer apellido",
             name: "apellido_1",
             value: apellido_1 || "",
@@ -46,7 +46,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             keyfilter: 'alpha'
         },
         {
-            id: "",
+            id: "apellido_2",
             label: "Segundo apellido",
             name: "apellido_2",
             value: apellido_2 || "",
@@ -57,7 +57,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             keyfilter: 'alpha'
         },
         {
-            id: "",
+            id: "email",
             label: "Email",
             name: "email",
             value: email || "",
@@ -67,7 +67,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             type: "text",
         },
         {
-            id: "",
+            id: "pass",
             label: "Contraseña",
             name: "pass",
             value: pass || "",
@@ -77,18 +77,17 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             type: "pass",
         },
         {
-            id: "",
+            id: "fecha_nacimiento",
             label: "Fecha de nacimiento",
             name: "fecha_nacimiento",
             value: fecha_nacimiento || "",
             onChange: null,
             autoFocus: false,
             submitted: null,
-            type: "date",
-
+            type: "date", 
         },
         {
-            id: "",
+            id: "direccion",
             label: "Dirección",
             name: "direccion",
             value: direccion || "",
@@ -98,7 +97,7 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             type: "text",
         },
         {
-            id: "",
+            id: "telefono",
             label: "Teléfono",
             name: "telefono",
             value: telefono || "",
@@ -148,6 +147,27 @@ export const medics_inputs = (id, cedula, nombre, nombre_emer, apellido_1, apell
             autoFocus: false,
             submitted: null,
             type: "checkbox",
+        },
+        {
+            id: "especialidad_id",
+            label: "Especialidad",
+            name: "especialidad_id",
+            value: especialidad_id || 0,
+            onChange: null,
+            autoFocus: false,
+            submitted: null,
+            type: "select",
+        },
+        {
+            id: "precio_consulta",
+            label: "Precio Consulta",
+            name: "precio_consulta",
+            value: precio_consulta || 0,
+            onChange: null,
+            autoFocus: false,
+            submitted: null, 
+            type: "int",
+            keyfilter: "int",
         },
     ];
 }

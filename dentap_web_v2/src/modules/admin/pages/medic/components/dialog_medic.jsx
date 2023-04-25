@@ -1,58 +1,44 @@
-import React, { useRef, useState } from 'react'
+import React, {useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomCalendar, CustomDropdown, CustomInputNumber, CustomInputSwitch, CustomInputText, CustomInputPassword, CustomListBox } from '../../../components/custom_input';
 
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import { closeDialog, updateContent } from '../../../../../store/dialog';
-import { savePatient, updatePatient } from '../../../../../store/patients/patients_thunk';
-import moment from 'moment';
 import Swal from 'sweetalert2';
-import { ListBox } from 'primereact/listbox';
+import moment from 'moment'; 
+import { closeDialog, updateContent } from '../../../../../store/dialog';
+import { CustomCalendar, CustomDropdown, CustomInputNumber, CustomInputSwitch, CustomInputText, CustomInputPassword } from '../../../components/custom_input';
+import { MedicThunk } from '../../../../../store/medics/medic_thunk';
 
 
-export const DialogMedic = ({ }) => {
+
+export const DialogMedic = () => {
 
     const [hasEmptyFields, setHasEmptyFields] = useState(false);
     const [loading, setLoading] = useState(false);
     const toast = useRef(null);
     const [hasError, setHasError] = useState(false);
 
+    const {saveMedic,updateMedic} = MedicThunk();
+
     const dispatch = useDispatch();
 
     const dialog = useSelector(state => state.dialog);
     const generos = useSelector(state => state.genero);
     const tipoUsuarios = useSelector(state => state.tipoUsuarios);
-    const tipoSangre = useSelector(state => state.bloodType.bloodTypes)
     const user = useSelector(state => state.user.loading);
 
-    const allergies = useSelector(state => state.allergies.allergies);
-    const enfermedades = useSelector(state => state.diseases.data);
+    const speciality = useSelector(state => state.speciality);
 
-
-    // console.log(allergies);
     const hideDialog = () => {
         setHasEmptyFields(false);
         dispatch(closeDialog());
     };
 
-    const labelBtn = () => {
-        let label = '';
-
-        if (loading && dialog.modificar) {
-            label = 'Actualizando...';
-        } else if (loading && !dialog.modificar) {
-            label = 'Guardando...';
-        } else {
-            label = dialog.modificar ? 'Actualizar' : 'Guardar';
-        }
-        return label;
-
-    }
     const showError = (title, message, severity) => {
         toast.current.show({ severity: severity, summary: title, detail: message, life: 3000 });
     }
+
     const saveData = async () => {
         let emptyFields = dialog.content.filter((campo) => !campo.value);
 
@@ -64,58 +50,40 @@ export const DialogMedic = ({ }) => {
         if (dialog.content.every(campo => campo.value)) {
             if (dialog.modificar) {
                 setLoading(true);
-                dispatch(updatePatient(dialog.content)).then(result => {
+                dispatch(updateMedic(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        showError('Error al modificar el usuario', result.message, 'error');
+                        showError('Error al modificar el usuario', result.message, 'error'); 
                     } else {
                         Swal.fire(
                             '¡Actualizado!',
                             'El usuario ha sido actualizado.',
                             'success'
-                        )
-                        setLoading(false);
+                        ) 
                         hideDialog();
                     }
+                    setLoading(false);
                 });
             } else {
+                //TODO: FOREIGN CONSTRAINTS con la cedula <- no se puede repetir
                 setLoading(true);
-                dispatch(savePatient(dialog.content)).then(result => {
+                dispatch(saveMedic(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        swho('Error al guardar el usuario', result.message, 'error');
+                        showError('Error al guardar el usuario', result.message, 'error'); 
                     } else {
                         Swal.fire(
                             '¡Guardado!',
                             'El usuario ha sido guardado.',
                             'success'
-                        )
-                        setLoading(false);
+                        ) 
                         hideDialog();
                     }
+                    setLoading(false);
                 });
             }
         }
-
     }
-
-    const DialogFooter = (
-        <React.Fragment>
-            <Button
-                label="Cancelar"
-                icon="pi pi-times"
-                disabled={loading}
-                outlined
-                onClick={hideDialog}
-            />
-            <Button
-                label={labelBtn()}
-                icon="pi pi-check"
-                disabled={loading}
-                onClick={saveData}
-            />
-        </React.Fragment>
-    );
 
     const onInputChange = (e, nombre) => {
         let value = e.target.value;
@@ -132,6 +100,16 @@ export const DialogMedic = ({ }) => {
 
         dispatch(updateContent(updatedContent));
     };
+
+    const selectData = (campo) =>{ 
+        if(campo == 'genero_id'){
+            return generos.generos;
+        }else if(campo == 'tipo_id'){
+            return tipoUsuarios.tipo_usuario;
+        }else{
+            return speciality.data;
+        }
+    }
 
     const customInputs = dialog.content != null ? dialog.content.map((campo, index) => {
         if (campo.type == 'text' || campo.type == 'int') {
@@ -178,7 +156,7 @@ export const DialogMedic = ({ }) => {
                     label={campo.label}
                     value={campo.value}
                     onChange={(e) => onInputChange(e, campo.name)} //setSelectedGenero(e.value)
-                    options={(campo.name == 'genero_id') ? generos.generos : (campo.name == "tipo_sangre") ? tipoSangre : tipoUsuarios.tipo_usuario}
+                    options={selectData(campo.name)}
                     optionLabel="descripcion"
                     submitted={hasEmptyFields}
                     name={campo.name}
@@ -206,22 +184,41 @@ export const DialogMedic = ({ }) => {
                     name={campo.name}
                 />
             )
-        } else if (campo.type == 'listBox') {
-            console.log('CampoOOO: ', campo.value);
-            return (
-                <CustomListBox
-                    key={index}
-                    id={campo.name}
-                    name={campo.name}
-                    label={campo.label}
-                    value={campo.value}
-                    onChange={(e) => onInputChange(e, campo.name)}
-                    options={(campo.label == "Enfermedades") ? enfermedades : allergies}></CustomListBox>
-            )
         }
     }) : null;
 
-    // console.log("ENFERMEDADEEES", dialog.content[15]);
+
+    const labelBtn = () => {
+        let label = '';
+
+        if (loading && dialog.modificar) {
+            label = 'Actualizando...';
+        } else if (loading && !dialog.modificar) {
+            label = 'Guardando...';
+        } else {
+            label = dialog.modificar ? 'Actualizar' : 'Guardar';
+        }
+        return label;
+
+    }
+
+    const DialogFooter = (
+        <React.Fragment>
+            <Button
+                label="Cancelar"
+                icon="pi pi-times"
+                disabled={loading}
+                outlined
+                onClick={hideDialog}
+            />
+            <Button
+                label={labelBtn()}
+                icon="pi pi-check"
+                disabled={loading}
+                onClick={saveData}
+            />
+        </React.Fragment>
+    );
 
     return (
 
@@ -230,7 +227,7 @@ export const DialogMedic = ({ }) => {
             <Dialog
                 header={dialog.title}
                 visible={dialog.open}
-                style={{ width: '80vw' }}
+                style={{ width: '50vw' }}
                 breakpoints={{ '960px': '75vw', '641px': '90vw', '480px': '100vw' }}
                 onHide={hideDialog}
                 footer={DialogFooter}
@@ -248,5 +245,4 @@ export const DialogMedic = ({ }) => {
             </Dialog >
         </>
     )
-
-};
+}

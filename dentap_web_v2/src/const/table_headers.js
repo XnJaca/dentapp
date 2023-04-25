@@ -66,6 +66,12 @@ const headers_medicos = [
     { field: "apellido_1", header: "Apellidos" },
     { field: "email", header: "Email" },
     { field: "telefono", header: "Telefono" }, 
+    { field: "especialidad.descripcion", header: "Especialidad" }, 
+];
+
+const headers_especialidad = [
+    { field: "id", header: "Id" },
+    { field: "descripcion", header: "Descripcion" }, 
 ];
 
 
@@ -74,5 +80,5 @@ export {
     headers_alergia, headers_medicamentos, 
     headers_horarios, headers_tipos_tratamientos,
     headers_tratamientos, headers_pacientes,
-    headers_medicos
+    headers_medicos, headers_especialidad
 };

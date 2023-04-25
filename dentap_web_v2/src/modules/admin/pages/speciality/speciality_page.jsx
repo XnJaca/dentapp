@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DataTable } from 'primereact/datatable';
 import { Card } from 'primereact/card';
 import { getColumns, getEstadoSeverity, skeleton } from '../../components';
-import { headers_medicos, headers_pacientes, medics_inputs } from '../../../../const';
+import { headers_especialidad, headers_medicos, headers_pacientes, medics_inputs } from '../../../../const';
 import { Column } from 'primereact/column';
-import { patients_inputs } from '../../../../const/inputs_patients';
+import { speciality_inputs } from '../../../../const/inputs_speciality';
 import { Button } from 'primereact/button';
 import { openDialog } from '../../../../store/dialog';
-import { DialogMedic } from './components/dialog_medic';
+import { DialogSpeciality } from './components/dialog_speciality';
 import { getAllergies } from '../../../../store/allergies/allergies_thunk';
 import { getTipoSangre } from '../../../../store/tipo_sangre/blood_type_thunk';
 import { DiseaseThunk } from '../../../../store/diseases/disease_thunk';
@@ -22,10 +22,10 @@ import { Tag } from 'primereact/tag';
 import { getGeneros } from '../../../../store/generos';
 import { SpecialityThunk } from '../../../../store/speciality/speciality_thunk';
 
-export const MedicsPage = () => {
+export const SpecialityPage = () => {
     const dispatch = useDispatch();
 
-    const { loading, data: medics } = useSelector(state => state.medic)
+    const { loading, data: specality } = useSelector(state => state.speciality)
 
     const dialog = useSelector(state => state.dialog);
     const toast = useRef(null);
@@ -54,7 +54,7 @@ export const MedicsPage = () => {
 
 
     const bodyDeleteTemplate = (rowData) => {
-        if (medics.length == 0) {
+        if (specality.length == 0) {
             return ""
         }
         return (
@@ -101,11 +101,11 @@ export const MedicsPage = () => {
 
     const bodyEditTemplate = (rowData) => {
 
-        if (medics.length == 0) {
+        if (specality.length == 0) {
             return ""
         }
 
-        const content = medics_inputs(rowData.id, rowData.cedula, rowData.nombre, rowData.nombre_emer, rowData.apellido_1, rowData.apellido_2, rowData.email, rowData.pass, rowData.fecha_nacimiento, rowData.direccion, rowData.telefono, rowData.telefono_emer, rowData.genero_id, rowData.estado, rowData.tipo_usuario.id, rowData.especialidad_id, rowData.precio_consulta);
+        const content = speciality_inputs(rowData.descripcion);
 
         return (
             <div className="flex inline-flex justify-content-center gap-2">
@@ -126,11 +126,11 @@ export const MedicsPage = () => {
         const content = medics_inputs("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
 
         return <div className='lg:flex justify-content-between'>
-            <h2>Listado de Medicos</h2>
+            <h2>Listado de Especialidades</h2>
             <div className="flex inline-flex justify-content-center gap-2 ">
-                <Button label='Crear Usuario' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
+                <Button label='Crear Especialidad' iconPos='right' icon="pi pi-user-plus" onClick={() => dispatch(openDialog({
                     open: true,
-                    title: 'Guardar Medico',
+                    title: 'Guardar Especialidad',
                     content: content,
                     modificar: false
                 }))} className='h-4rem' size='small' severity={'primary'} />
@@ -144,21 +144,21 @@ export const MedicsPage = () => {
                 <Toast ref={toast} />
                 <Card title={header} >
                     <DataTable
-                        value={medics.length == 0 ? emptyUser : medics}
+                        value={specality.length == 0 ? emptyUser : specality}
                         editMode="row"
                         dataKey="id"
                         tableStyle={{ minWidth: '10rem' }}
                         emptyMessage={loading ? <Skeleton /> : 'Esta todo muy vacio aqui :('}
                     >
                         <Column exportable={false} />
-                        {getColumns(headers_medicos, medics.length == 0 ? true : false)}
-                        <Column field="estado" header="Estado" body={medics.length == 0 ? skeleton : statusBodyTemplate} style={{ width: '10%' }}></Column>
+                        {getColumns(headers_especialidad, specality.length == 0 ? true : false)}
+                        <Column field="estado" header="Estado" body={specality.length == 0 ? skeleton : statusBodyTemplate} style={{ width: '10%' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyDeleteTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                     </DataTable>
                 </Card>
 
-                <DialogMedic></DialogMedic>
+                <DialogSpeciality></DialogSpeciality>
             </div>
         </div>
     )

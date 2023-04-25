@@ -10,21 +10,22 @@ import { TreatmentTypePage } from "../pages/treatment_type/treatment_type_page"
 import { PatientsPage } from "../pages/patients/patients_page"
 import { AppoimentsPage } from "../pages/appointment/appoiment_page"
 import { MedicsPage } from "../pages/medic/medic_page"
+import { SpecialityPage } from "../pages/speciality/speciality_page"
 
 export const AdminRoutes = () => {
     return (
         <Routes>
-            <Route path="/*" element={<AdminScreen><HomePage/></AdminScreen>} />
+            <Route path="/*" element={<AdminScreen><HomePage /></AdminScreen>} />
             {/* <Route path="/*" element={<AdminScreen><MainPage/></AdminScreen>} /> */}
-            <Route path="/admin/users" element={<AdminScreen><UserPage/></AdminScreen>} />
-            <Route path="/admin/allergies" element={<AdminScreen><AllergiesPage/></AdminScreen>} />
-            <Route path="/admin/diseases" element={<AdminScreen><DiseasePage/></AdminScreen>} />
-            <Route path="/admin/medicine" element={<AdminScreen><MedicinePage/></AdminScreen>} />
-            <Route path="/admin/treatment" element={<AdminScreen><TreatmentPage/></AdminScreen>} />
-            <Route path="/admin/treatmenttype" element={<AdminScreen><TreatmentTypePage/></AdminScreen>} />
-            <Route path="/admin/citas" element={<AdminScreen><AppoimentsPage/></AdminScreen>} />
-            
-<Route path="/admin/medics" element={<AdminScreen><MedicsPage/></AdminScreen>} />
+            <Route path="/admin/users" element={<AdminScreen><UserPage /></AdminScreen>} />
+            <Route path="/admin/allergies" element={<AdminScreen><AllergiesPage /></AdminScreen>} />
+            <Route path="/admin/diseases" element={<AdminScreen><DiseasePage /></AdminScreen>} />
+            <Route path="/admin/medicine" element={<AdminScreen><MedicinePage /></AdminScreen>} />
+            <Route path="/admin/treatment" element={<AdminScreen><TreatmentPage /></AdminScreen>} />
+            <Route path="/admin/treatmenttype" element={<AdminScreen><TreatmentTypePage /></AdminScreen>} />
+            <Route path="/admin/citas" element={<AdminScreen><AppoimentsPage /></AdminScreen>} /> 
+            <Route path="/admin/medics" element={<AdminScreen><MedicsPage /></AdminScreen>} />
+            <Route path="/admin/speciality" element={<AdminScreen><SpecialityPage /></AdminScreen>} />
             {/*  <Route path="/admin/enfermedades" element={<AdminPage><EnfermedadesPage /></AdminPage>} />
             <Route path="/admin/alergias" element={<AdminPage><AlergiasPage /></AdminPage>} />
             <Route path="/admin/medicamentos" element={<AdminPage><MedicamentosPage /></AdminPage>} />

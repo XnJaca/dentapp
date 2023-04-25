@@ -79,12 +79,19 @@ export const HomePage = () => {
                     goTo="/admin/citas"
                     severity={2}
                 />
+
+                <CardContainer
+                    title="Especialidades"
+                    subTitle="Gestione las especialidades de la plataforma."
+                    goTo="/admin/speciality"
+                    severity={2}
+                />
             </div>
 
             <div className="flex flex-wrap justify-content-center gap-2">
                 <div className='card bg-white border-round w-11 mb-4 p-3'>
                     <h2 className="text-700">Estas son las citas para el dia de hoy</h2>
-                    <SortingDemo></SortingDemo>
+                    {/* <SortingDemo></SortingDemo> */}
 
                 </div>
             </div>

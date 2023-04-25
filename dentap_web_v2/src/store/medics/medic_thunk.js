@@ -51,11 +51,11 @@ export const MedicThunk = () => {
             console.log(response.message);
         }
     }
-
+    
     const saveMedic = (medic) => async (dispatch) => {
- 
+  
         dispatch(setLoading(true)); 
-        const response = await saveMedicService(medic); 
+        const response = await saveMedicService(medic);  
     
         if (response.error == false) {
             const data = await getAllMedics();
@@ -71,6 +71,7 @@ export const MedicThunk = () => {
                 message: response.message
             }
         } else { 
+            dispatch(setLoading(false));
             return {
                 error: true,
                 message: response.message
@@ -86,7 +87,7 @@ export const MedicThunk = () => {
      
             const dataList = data.map(d => d.id == medic[0].id ? updateMedicData(medic) : d);
 
-            dispatch(setPacientes(
+            dispatch(setData(
                 {
                     data: dataList,
                     message: response.message
@@ -112,7 +113,7 @@ export const MedicThunk = () => {
      
         if (response.error == false) {
             const dataList = data.filter(d => d.id != id);
-            dispatch(setPacientes(
+            dispatch(setData(
                 {
                     data: dataList,
                     message: response.message

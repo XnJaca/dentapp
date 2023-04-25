@@ -8,18 +8,17 @@ import {  CustomInputText } from '../../../components/custom_input';
 import moment from 'moment'; 
 
 import Swal from 'sweetalert2'; 
-import { Toast } from 'primereact/toast';
-import { DiseaseThunk } from '../../../../../store/diseases/disease_thunk';
+import { Toast } from 'primereact/toast'; 
+import { SpecialityThunk } from '../../../../../store/speciality/speciality_thunk';
+ 
 
-
-
-export const DialogDisease = () => {
+export const DialogSpeciality = () => {
 
     const [hasEmptyFields, setHasEmptyFields] = useState(false);
     const [loading, setLoading] = useState(false);
     const toast = useRef(null); 
 
-    const { updateDisease, saveDisease } = DiseaseThunk();
+    const { updateSpeciality, saveSpeciality } = SpecialityThunk();
 
     const dispatch = useDispatch();
 
@@ -45,14 +44,14 @@ export const DialogDisease = () => {
         if (dialog.content.every(campo => campo.value)) {
             if (dialog.modificar) {
                 setLoading(true);
-                dispatch(updateDisease(dialog.content)).then(result => {
+                dispatch(updateSpeciality(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        showError('Error al modificar la enfermedada', result.message, 'error');
+                        showError('Error al modificar la especialidad', result.message, 'error');
                     } else {
                         Swal.fire(
                             '¡Actualizado!',
-                            'La enfermedad ha sido actualizada.',
+                            'La especialidad ha sido actualizada.',
                             'success'
                         )
                         setLoading(false);
@@ -61,14 +60,14 @@ export const DialogDisease = () => {
                 });
             } else {
                 setLoading(true);
-                dispatch(saveDisease(dialog.content)).then(result => {
+                dispatch(saveSpeciality(dialog.content)).then(result => {
                     console.log('Result: ', result);
                     if (result.error) {
-                        showError('Error al guardar la enfermedad', result.message, 'error');
+                        showError('Error al guardar la especialidad', result.message, 'error');
                     } else {
                         Swal.fire(
                             '¡Guardado!',
-                            'La enfermedad ha sido guardado.',
+                            'La especialidad ha sido guardado.',
                             'success'
                         )
                         setLoading(false);
@@ -106,7 +105,7 @@ export const DialogDisease = () => {
                     value={campo.value}
                     onChange={(e) => onInputChange(e, campo.name)}
                     submitted={hasEmptyFields}
-                // keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
+                    keyfilter={campo.keyfilter} // <-- No deja escribir espacios Desahbilidato por mientras
                 />
             );
         }
@@ -162,7 +161,7 @@ export const DialogDisease = () => {
                 modal={false}
             >
 
-                <div className="formgrid grid">
+                <div className="formgrid grid" style={{ width: '50vw' }}>
                     {customInputs}
                 </div>
                 {/* {hasError && showError()} */}

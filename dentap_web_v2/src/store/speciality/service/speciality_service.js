@@ -1,38 +1,11 @@
 import { EndPoint } from "../../../const/endpoints";
 import { FetchToApi } from "../../../utils/fetch_to_api";
 
-const getJson = (medic) => {
-    return {
-        "usuario": {
-            'cedula': medic[0].value,
-            'nombre': medic[1].value,
-            'nombre_emer': medic[2].value,
-            'apellido_1': medic[3].value,
-            'apellido_2': medic[4].value,
-            'email': medic[5].value,
-            'pass': medic[6].value,
-            'fecha_nacimiento': medic[7].value,
-            'direccion': medic[8].value,
-            'telefono': medic[9].value,
-            'telefono_emer': medic[10].value,
-            'genero_id': medic[11].value.id, 
-            'estado': medic[13].value
-        },
-        "medico": {
-            'especialidad_id': medic[14].value.id ?? medic[14].value,
-            'precio_consulta': medic[15].value,
-        },
-        "tipo_usuario": {
-            'tipo_id': medic[12].value.id ?? medic[12].value,
-        },
-    }; 
-}
 
-
-export const getAllMedics = async () => {
+export const getAllSpeciality = async () => {
     try {
         const response = await FetchToApi({
-            endpoint: EndPoint.medicos,
+            endpoint: EndPoint.especialidades,
             method: 'GET'
         });
         return {
@@ -40,6 +13,7 @@ export const getAllMedics = async () => {
             message: response.message,
             data: response.data
         };
+
     } catch (error) {
         return {
             error: true,
@@ -47,13 +21,19 @@ export const getAllMedics = async () => {
         }
     }
 }
+
+
+export const saveSpecialityService = async (speciality) => {
  
-export const saveMedicService = async (medic) => { 
+    let json = { 
+        'descripcion': speciality[1].value,  
+    };
+
     try {
         const response = await FetchToApi({
-            endpoint: EndPoint.medicos,
+            endpoint: EndPoint.especialidades,
             method: 'POST',
-            body: getJson(medic)
+            body: json
         });
 
         if (!response.success) {
@@ -77,20 +57,18 @@ export const saveMedicService = async (medic) => {
     }
 }
 
-export const updateMedicService = async (medic) => { 
+
+export const updateSpecialityService = async (speciality) => {
+    
+    let json = { 
+        'descripcion': speciality[1].value,  
+    };
     try { 
         const response = await FetchToApi({
-            endpoint: EndPoint.medicos + '/' + medic[0].id,
+            endpoint: EndPoint.especialidades + '/' + speciality[0].id,
             method: 'PUT',
-            body: getJson(medic)
+            body: json
         });
-
-        if (!response.success) {
-            return {
-                error: true,
-                message: response.message
-            }
-        }
 
         return {
             error: false,
@@ -105,10 +83,11 @@ export const updateMedicService = async (medic) => {
     }
 }
 
-export const deleteMedicService = async (id) => {
+export const deleteSpecialityService = async (id) => {
+    
     try {
         const response = await FetchToApi({
-            endpoint: EndPoint.medicos + '/' + id,
+            endpoint: EndPoint.especialidades + '/' + id,
             method: 'DELETE'
         });
 
@@ -124,4 +103,3 @@ export const deleteMedicService = async (id) => {
         }
     }
 }
-
