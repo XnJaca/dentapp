@@ -93,21 +93,35 @@ class TipoTratamientoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\TipoTratamiento  $tipoTratamiento
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JSONResponse
      */
-    public function update(Request $request, TipoTratamiento $tipoTratamiento)
+    public function update(Request $request,$id)
     {
         //
+        $tratamiento = TipoTratamiento::find($id);
+        $tratamiento->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tipo Tratamiento actualizado correctamente',
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\TipoTratamiento  $tipoTratamiento
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JSONResponse
      */
-    public function destroy(TipoTratamiento $tipoTratamiento)
+    public function destroy($id)
     {
-        //
+        //delete tipoTratamiento
+        $tipoTratamiento = TipoTratamiento::find($id);
+        $tipoTratamiento->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tipo Tratamiento eliminado.'
+        ]);
     }
 }
