@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
-import SortingDemo from './appointment/appointments_table'
 import { CardContainer } from '../components/card_container'
 import { useDispatch } from 'react-redux'
 import { getUsers } from '../../../store/users/user_thunk'
@@ -72,6 +71,13 @@ export const HomePage = () => {
                     subTitle="Gestione los Medicos de la plataforma."
                     goTo="/admin/medics"
                     severity={3}
+                />
+
+                <CardContainer
+                    title="Citas"
+                    subTitle="Gestione las citas de la plataforma."
+                    goTo="/admin/citas"
+                    severity={2}
                 />
             </div>
 

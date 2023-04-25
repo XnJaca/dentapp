@@ -21,7 +21,7 @@ class Tratamiento extends Model
         'total_medicamento'
     ];
 
-    // Relation with tratamirntocita
+    // R
     public function cita()
     {
         return $this->hasOne(Cita::class);
@@ -38,13 +38,11 @@ class Tratamiento extends Model
     {
         return $this->belongsTo(TipoTratamiento::class);
     }
-
-    // Relation with medicamentoTratamiento
-    public function medicamentoTratamiento()
+    // retalation with consultorio
+    public function consultorio()
     {
-        return $this->hasMany(MedicamentoTratamiento::class);
+        return $this->belongsTo(Consultorio::class);
     }
-
     // Relation with citapaciente
     public function citaPaciente()
     {

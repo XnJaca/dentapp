@@ -18,7 +18,7 @@ class MedicoController extends Controller
     {
         //Obtener todos los medicos + usuario + tipoUsuarioxUsuario + genero + tipoUsuario
         // $medicos = Medico::with('usuario', 'usuario.genero', 'usuario.tipoUsuarioXUsuario.tipo', 'especialidad')->get();
-        $medicos = Medico::with('usuario.genero','usuario.tipoUsuarioXUsuario.tipo', 'cita')->get()->map(function ($medico) {
+        $medicos = Medico::with('usuario.genero','usuario.tipoUsuarioXUsuario.tipo','especialidad', 'cita')->get()->map(function ($medico) {
             $tipo_usuario = $medico->usuario->tipoUsuarioXUsuario->first()->tipo;
             $usuario_data = $medico->usuario->makeHidden('tipoUsuarioXUsuario')->toArray();
             $genero_usuario = $medico->usuario->genero;

@@ -17,44 +17,39 @@ class CitaPaciente extends Model
         'cita_id',
         'paciente_id',
         'tratamiento_id',
-        'medico_tratamiento_id'
     ];
 
     // Relation with cita
+    // public function cita()
+    // {
+    //     return $this->hasManyThrough(
+    //         Cita::class,
+    //         CitaPaciente::class,
+    //         'paciente_id',
+    //         'id',
+    //         'id',
+    //         'cita_id'
+    //     )->with('tratamiento', 'paciente', 'medico');
+    // }
     public function cita()
     {
-        return $this->hasManyThrough(
-            Cita::class,
-            CitaPaciente::class,
-            'paciente_id',
-            'id',
-            'id',
-            'cita_id'
-        )->with('tratamiento');
+        return $this->belongsTo(Cita::class);
     }
 
     // Relation with paciente
     public function paciente()
     {
-        return $this->hasMany(Paciente::class);
+        return $this->belongsTo(Paciente::class);
     }
 
-    // Relation with tratamiento
-    // public function tratamientos()
-    // {
-    //     return $this->hasManyThrough(
-    //         Tratamiento::class,
-    //         CitaPaciente::class,
-    //         'paciente_id',
-    //         'id',
-    //         'id',
-    //         'tratamiento_id'
-    //     );
-    // }
+    public function medico()
+    {
+        return $this->belongsTo(Medico::class, 'medico_tratamiento_id');
+    }
 
     //relation with medicamentotratamiento
-    public function medicamentoTratamiento()
-    {
-        return $this->belongsTo(MedicamentoTratameinto::class);
-    }
+    // public function medicamentoTratamiento()
+    // {
+    //     return $this->belongsTo(MedicamentoTratameinto::class);
+    // }
 }

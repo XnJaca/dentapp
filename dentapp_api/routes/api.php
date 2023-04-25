@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\AlergiaPacienteController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\GeneroController;
@@ -66,4 +67,6 @@ Route::resource('pacientes', PacienteController::class);
 Route::resource('tipo_sangre', TipoSangreController::class);
 
 Route::resource('tipo_tratamientos', TipoTratamientoController::class);
+
+Route::resource('citas', CitaController::class);
 // Route::put('/api/enfermedades/{id}', [EnfermedadController::class, 'update']);
