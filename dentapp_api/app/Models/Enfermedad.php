@@ -24,4 +24,5 @@ class Enfermedad extends Model
     {
         return $this->hasMany(EnfermedadPaciente::class);
     }
+    
 }

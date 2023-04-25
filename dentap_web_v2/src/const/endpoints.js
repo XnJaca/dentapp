@@ -12,4 +12,6 @@ export const EndPoint = {
     horarios: `${baseUrl}/horarios`, 
     tratamientos: `${baseUrl}/tratamientos`,
     tipos_tratamientos: `${baseUrl}/tipos_tratamientos`,
+    pacientes: `${baseUrl}/pacientes`,
+    tipo_sangre: `${baseUrl}/tipo_sangre`,
 }

@@ -11,6 +11,23 @@ const UpdateDisease = (disease) => {
     }
 }
 
+const getDiseases = () => async (dispatch) => {
+    // console.log('getTipoSangre');
+    const response = getAllDiseases();
+
+    console.log('response getAllDiseases', response.data);
+    if (response.error == false) {
+        dispatch(setData(
+            {
+                data: response.data,
+                message: response.message
+            }
+        ));
+    } else {
+        console.log(response.message);
+    }
+}
+
 export const DiseaseThunk = () => {
 
     const { data } = useSelector(state => state.diseases);
@@ -122,7 +139,6 @@ export const DiseaseThunk = () => {
     return {
         //Constantes
         data,
-
         //Metodos 
         updateDisease,
         deleteDisease,

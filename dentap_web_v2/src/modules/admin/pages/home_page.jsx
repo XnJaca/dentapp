@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
 import SortingDemo from './appointment/appointments_table'
 import { CardContainer } from '../components/card_container'
+import { useDispatch } from 'react-redux'
+import { getUsers } from '../../../store/users/user_thunk'
+import { getGeneros } from '../../../store/generos'
+import { getTipoUsuarios } from '../../../store/tipo_usuarios/tipo_usuario_thunk'
+import { DiseaseThunk } from '../../../store/diseases/disease_thunk'
+import { getAllDiseases } from '../../../store/diseases/services/disease_service'
 
 export const HomePage = () => {
+    const dispatch = useDispatch();
+    const diseases = DiseaseThunk();
+    useEffect(() => {
+        dispatch(getGeneros());
+        dispatch(getTipoUsuarios()); 
+        dispatch(diseases.getDiseases()); 
+    }, []);
 
     return (
         <>
@@ -34,31 +47,23 @@ export const HomePage = () => {
                     title="Medicamentos"
                     subTitle="Gestione los medicamentos de la plataforma."
                     goTo="/admin/medicine"
-                    severity={0}
+                    severity={2}
                 />
 
                 <CardContainer
                     title="Tratamientos"
                     subTitle="Gestione los tratamientos de la plataforma."
                     goTo="/admin/treatment"
+                    severity={0}
+                />
+            </div>
+            <div className="card lg:flex justify-content-center">
+                <CardContainer
+                    title="Pacientes"
+                    subTitle="Gestione los pacientes de la plataforma."
+                    goTo="/admin/patients"
                     severity={1}
                 />
-
-
-                {/* <div className="card flex  justify-content-center mt-3 p-4">
-                    <Card title="Usuarios" subTitle="Gestione los usuarios de la plataforma." footer={footer(0, "/admin/users")} className="shadow-5 md:w-15rem">
-                    </Card>
-                </div> */}
-
-                {/* <div className="card justify-content-center mt-3 p-4">
-                    <Card title="Pacientes" subTitle="Gestione los pacientes de la plataforma." footer={footer(1, "/admin/users")} className="shadow-5 md:w-15rem">
-                    </Card>
-                </div>
-
-                <div className=" card justify-content-center mt-3 p-4">
-                    <Card title="Citas" subTitle="Gestione las citas de la plataforma." footer={footer(2, '/admin')} className="shadow-5 md:w-15rem">
-                    </Card>
-                </div> */}
             </div>
 
             <div className="flex flex-wrap justify-content-center gap-2">

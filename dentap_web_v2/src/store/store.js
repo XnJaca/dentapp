@@ -9,6 +9,8 @@ import { DiseaseSlice } from "./diseases/diseases_slice";
 import { MedicineSlice } from "./medicine/medicine_slice";
 import { TreatmentSlice } from "./treatment/treatment_slice";
 import { TreatmentTypeSlice } from "./treatment_type/treatment_type_slice";
+import { PacientesSlice } from "./patients/patients_slice";
+import { BloodTypeSlice } from "./tipo_sangre/blood_type_slice";
 
 export const store = configureStore({
     reducer: {
@@ -22,5 +24,7 @@ export const store = configureStore({
         medicines: MedicineSlice.reducer,
         treatment: TreatmentSlice.reducer,
         treatmentType: TreatmentTypeSlice.reducer,
+        pacientes: PacientesSlice.reducer,
+        bloodType: BloodTypeSlice.reducer,
     }
 })

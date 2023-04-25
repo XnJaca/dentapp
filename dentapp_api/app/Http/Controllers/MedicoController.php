@@ -51,7 +51,7 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->medico['especialidad_id']);
+        // dd($request->all());
 
         $usuario = null;
         $medico = null;
@@ -131,7 +131,7 @@ class MedicoController extends Controller
      */
     public function update(Request $request, Medico $medico)
     {
-        //
+        // 
     }
 
     /**
@@ -142,6 +142,6 @@ class MedicoController extends Controller
      */
     public function destroy(Medico $medico)
     {
-        //
+        // borrar de medico, tratamiento, citas
     }
 }

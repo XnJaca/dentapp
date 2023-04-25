@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { Skeleton } from 'primereact/skeleton';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
+import { Toast } from 'primereact/toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser, getUsers } from '../../../../store/users/user_thunk';
 import { getColumns, getEstadoSeverity, skeleton } from '../../components';
@@ -20,7 +21,7 @@ import { getTipoUsuarios } from '../../../../store/tipo_usuarios/tipo_usuario_th
 export const UserPage = () => { 
 
     const usuarios = useSelector(state => state.user.user);  
-
+    const toast = useRef(null);
     const emptyUser = [{
         id: null,
         cedula: '',
@@ -34,14 +35,14 @@ export const UserPage = () => {
 
     useEffect(() => { 
         dispatch(getUsers());
-        dispatch(getGeneros());
-        dispatch(getTipoUsuarios());  
     }, []);
 
     const statusBodyTemplate = (rowData) => {
         return <Tag value={rowData.estado == 0 ? "Inactivo" : "Activo"} severity={getEstadoSeverity(rowData.estado)}></Tag>;
     };
-
+    const showError = (title, message, severity) => {
+        toast.current.show({ severity: severity, summary: title, detail: message, life: 3000 });
+    }
     const bodyDeleteTemplate = (rowData) => {
         if (usuarios.length == 0) {
             return ""
@@ -91,6 +92,7 @@ export const UserPage = () => {
 
     const bodyEditTemplate = (rowData) => {
 
+        console.log('rowData: ', rowData);
         if (usuarios.length == 0) {
             return ""
         }

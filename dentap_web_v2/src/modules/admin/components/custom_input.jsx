@@ -4,6 +4,7 @@ import { Password } from 'primereact/password';
 import { Dropdown } from 'primereact/dropdown';
 import { InputSwitch } from 'primereact/inputswitch';
 import { Calendar } from 'primereact/calendar';
+import { ListBox } from 'primereact/listbox';
 import { Toast } from 'primereact/toast';
 import { classNames } from 'primereact/utils'
 
@@ -21,7 +22,7 @@ const isValid = (submitted, value) => {
 export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilter }) => {
 
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={id}>{label}</label>
             <InputText keyfilter={keyfilter} id={id} value={value} type="text" onChange={onChange} className={classNames({ 'p-invalid': submitted && !value })} />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
@@ -32,7 +33,7 @@ export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilt
 
 export const CustomInputNumber = ({ id, label, value, onChange, submitted, keyfilter }) => {
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={id}>{label}</label>
             <InputNumber keyfilter={keyfilter} id={id} value={value} onChange={onChange} className={isValid(submitted, value)} />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
@@ -42,7 +43,7 @@ export const CustomInputNumber = ({ id, label, value, onChange, submitted, keyfi
 
 export const CustomInputSelect = ({ id, label, value, onChange, submitted, keyfilter }) => {
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={id}>{label}</label>
             <InputText keyfilter={keyfilter} id={id} value={value} onChange={onChange} className={isValid(submitted, value)} />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
@@ -52,7 +53,7 @@ export const CustomInputSelect = ({ id, label, value, onChange, submitted, keyfi
 
 export const CustomInputPassword = ({ id, label, value, onChange, submitted }) => {
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={id} className="font-bold">
                 {label}
             </label>
@@ -79,7 +80,7 @@ export const CustomDropdown = ({ id, label, name, options, value, onChange, opti
     const selectedOption = options.find(option => option.id == val);
 
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={name} className="font-bold">{label}</label>
             <Dropdown
                 id={name}
@@ -100,7 +101,7 @@ export const CustomDropdown = ({ id, label, name, options, value, onChange, opti
 
 export const CustomInputSwitch = ({ id, label, onChange, checked }) => {
     return (
-        <div className="field col-6 md:col-6">
+        <div className="field col-6 md:col-4">
             <div className="field mt-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <label htmlFor={id} className="font-bold mr-5">{label}</label>
                 <InputSwitch key={id} id={id} checked={checked} onChange={onChange} />
@@ -116,7 +117,7 @@ export const CustomCalendar = ({ id, name, label, value, onChange, submitted }) 
     const fechaNacimiento = moment(value).format('YYYY-MM-DD');
     console.log('CustomCalendar - fechaNacimiento:', fechaNacimiento);
     return (
-        <div className="field col-12 md:col-6">
+        <div className="field col-12 md:col-4">
             <label htmlFor={id} className="font-bold">
                 {label}
             </label>
@@ -132,6 +133,28 @@ export const CustomCalendar = ({ id, name, label, value, onChange, submitted }) 
                 showIcon
             />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
+        </div>
+    );
+}
+
+export const CustomListBox = ({ id, name, label,value, optionLabel, onChange, options }) => {
+    const toast = useRef(null);
+    console.log('CustomListBox - value:', value);
+    return (
+        <div className="field col-12 md:col-4">
+            <label htmlFor={id} className="font-bold">
+                {label}
+            </label>
+            <Toast ref={toast} />
+            <ListBox 
+            id={id}
+            name={name}
+            onChange={onChange}
+            multiple 
+            value={value} 
+            options={options} 
+            optionLabel="nombre"
+            className="w-full md:w-25rem" />
         </div>
     );
 }

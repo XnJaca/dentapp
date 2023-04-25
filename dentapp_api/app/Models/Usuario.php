@@ -50,5 +50,18 @@ class Usuario extends Model
         return $this->hasMany(TipoUsuarioxUsuario::class);
     }
 
+    // Relacion a consultorio
+    public function consultorio()
+    {
+        return $this->hasManyThrough(
+            Consultorio::class,
+            ConsultorioXUsuario::class,
+            'consultorio_id',
+            'id',
+            'id',
+            'usuario_id'
+        )->with('tratamiento');
+    }
+
     
 }

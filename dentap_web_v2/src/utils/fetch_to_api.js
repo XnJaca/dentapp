@@ -16,7 +16,7 @@ export const FetchToApi = async ({ endpoint, method, body = '' }) => {
             console.log(error);
         });
         
-        console.log('reeesss', resp);
+        console.log('RESPFETCHTOAPI', resp);
         if (resp == undefined  || !resp.ok) {
             console.log();
             throw new Error('Error en la petición, contacte con un administrador.');

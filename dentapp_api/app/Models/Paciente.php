@@ -45,8 +45,6 @@ class Paciente extends Model
             'cita_id'
         )->with('tratamiento');
     }
-
-
     // Relation with usuario
     public function usuario()
     {
@@ -56,4 +54,11 @@ class Paciente extends Model
     {
         return $this->hasManyThrough(Alergia::class, AlergiaPaciente::class, 'paciente_id', 'id', 'id', 'alergia_id');
     }
+
+    public function enfermedades()
+    {
+        return $this->hasManyThrough(Enfermedad::class, EnfermedadPaciente::class, 'paciente_id', 'id', 'id', 'enfermedad_id');
+    }
+    // Relation with tratamiento
+    
 }

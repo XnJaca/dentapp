@@ -42,6 +42,13 @@ class Cita extends Model
     //relation with tratamientoCita
     public function tratamiento()
     {
-        return $this->belongsTo(Tratamiento::class);
+        return $this->hasManyThrough(
+            Tratamiento::class,
+            CitaPaciente::class,
+            'paciente_id',
+            'id',
+            'id',
+            'tratamiento_id'
+        );
     }
 }

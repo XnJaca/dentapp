@@ -48,10 +48,20 @@ const headers_tratamientos = [
     { field: "total_medicamento", header: "Total Medicamento" },
 ];  
 
+const headers_pacientes = [
+    { field: "id", header: "Id" },
+    { field: "cedula", header: "Cedula" },
+    { field: "nombre", header: "Nombre" },
+    { field: "apellido_1", header: "Apellidos" },
+    { field: "email", header: "Email" },
+    { field: "telefono", header: "Telefono" },
+    // { field: "estado", header: "Estado" },
+];
+
 
 export { 
     headers_usuarios, headers_enfermedades, 
     headers_alergia, headers_medicamentos, 
     headers_horarios, headers_tipos_tratamientos,
-    headers_tratamientos
+    headers_tratamientos, headers_pacientes
 };
