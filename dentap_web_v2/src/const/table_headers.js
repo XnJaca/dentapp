@@ -58,10 +58,20 @@ const headers_pacientes = [
     // { field: "estado", header: "Estado" },
 ];
 
+const headers_citas = [
+    { field: "id", header: "Id" },
+    { field: "medico_id", header: "Medico" },
+    { field: "paciente_id", header: "Paciente" },
+    { field: "fecha", header: "Fecha" },
+    { field: "hora", header: "Hora" },
+    { field: "estado", header: "Estado" },
+]
+
 
 export { 
     headers_usuarios, headers_enfermedades, 
     headers_alergia, headers_medicamentos, 
     headers_horarios, headers_tipos_tratamientos,
-    headers_tratamientos, headers_pacientes
+    headers_tratamientos, headers_pacientes,
+    headers_citas
 };

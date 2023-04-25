@@ -7,10 +7,11 @@ export const getAllAppoiments = async () => {
             endpoint: EndPoint.citas,
             method: 'GET'
         });
+        console.log('RESPONSE APPOIMENT', response);
         return {
             error: false,
             message: response.message,
-            allergies: response.data
+            appoiments: response.data
         };
 
     } catch (error) {

@@ -16,9 +16,7 @@ class CitaController extends Controller
     public function index()
     {
         //
-        $citas = CitaPaciente::with(['cita.tratamientoCita.tratamiento' => function ($query) {
-            $query->with('medico.usuario', 'consultorio');
-        }, 'paciente.usuario.genero'])->get();
+        $citas = CitaPaciente::with(['cita.tratamientoCita.tratamiento','medico.usuario','paciente.usuario.genero'])->get();
 
         return response()->json([
             'success' => true,

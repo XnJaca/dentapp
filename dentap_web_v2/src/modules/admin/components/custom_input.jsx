@@ -110,7 +110,7 @@ export const CustomInputSwitch = ({ id, label, onChange, checked }) => {
     );
 }
 
-export const CustomCalendar = ({ id, name, label, value, onChange, submitted }) => {
+export const CustomCalendar = ({ id, name, label, value, onChange, submitted, showTime, formatHour }) => {
     const toast = useRef(null);
     // const fechaNacimiento = value ? moment(value).toDate() : null; // Convertir la cadena en un objeto de fecha
     console.log('CustomCalendar - value:', value);
@@ -131,6 +131,8 @@ export const CustomCalendar = ({ id, name, label, value, onChange, submitted }) 
                 required
                 dateFormat="yy-mm-dd"
                 showIcon
+                showTime={showTime}
+                hourFormat={formatHour}
             />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
         </div>

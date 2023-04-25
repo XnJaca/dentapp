@@ -43,7 +43,7 @@ class Paciente extends Model
             'id',
             'id',
             'cita_id'
-        )->with('tratamiento');
+        )->with('tratamientoCita');
     }
     // Relation with usuario
     public function usuario()

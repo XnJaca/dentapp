@@ -17,6 +17,7 @@ class CitaPaciente extends Model
         'cita_id',
         'paciente_id',
         'tratamiento_id',
+        'medico_id',
     ];
 
     // Relation with cita
@@ -42,9 +43,16 @@ class CitaPaciente extends Model
         return $this->belongsTo(Paciente::class);
     }
 
+    // Relacion con medico
+    // public function medico()
+    // {
+    //     return $this->belongsTo(Medico::class);
+    // }
+
+
     public function medico()
     {
-        return $this->belongsTo(Medico::class, 'medico_tratamiento_id');
+        return $this->belongsTo(Medico::class);
     }
 
     //relation with medicamentotratamiento
