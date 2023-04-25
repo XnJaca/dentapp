@@ -8,6 +8,11 @@ import { CustomCalendar, CustomDropdown, CustomInputSwitch, CustomInputText } fr
 import { Calendar } from 'primereact/calendar';
 import { MedicThunk } from '../../../../../store/medics/medic_thunk';
 import moment from 'moment';
+import { TreatmentThunk } from '../../../../../store/treatment/treatment_thunk';
+import { TreatmentTypeThunk } from '../../../../../store/treatment_type/treatment_type_thunk';
+import { saveAppoiment } from '../../../../../store/appoiments/appoiments_thunk';
+import { getPacientes } from '../../../../../store/patients/patients_thunk';
+import Swal from 'sweetalert2';
 
 export const DialogAppoiment = () => {
     const [hasEmptyFields, setHasEmptyFields] = useState(false);
@@ -21,79 +26,88 @@ export const DialogAppoiment = () => {
 
     // const { updateDisease, saveDisease } = DiseaseThunk();
 
-    
+
     const dispatch = useDispatch();
     const medics = MedicThunk();
+    const treatments = TreatmentTypeThunk();
     const dialog = useSelector(state => state.dialog);
     const medicos = useSelector(state => state.medic.data);
-
-
+    const pacientes = useSelector(state => state.pacientes.pacientes);
+    const treatmentsType = useSelector(state => state.treatmentType.data);
     useEffect(() => {
         dispatch(medics.getMedics())
+        dispatch(treatments.getTreatmentType());
+        dispatch(getPacientes());
+
     }, [])
 
     console.log('Dialog: ', dialog);
     const hideDialog = () => {
         setHasEmptyFields(false);
         dispatch(closeDialog());
-        
+
     };
 
     const showError = (title, message, severity) => {
         toast.current.show({ severity: severity, summary: title, detail: message, life: 3000 });
     }
 
-    // const saveData = async () => {
-    //     let emptyFields = dialog.content.filter((campo) => !campo.value);
+    const saveData = async () => {
+        let emptyFields = dialog.content.filter((campo) => !campo.value);
 
-    //     if (emptyFields.length > 0) {
-    //         setHasEmptyFields(true);
-    //         return;
-    //     }
+        if (emptyFields.length > 0) {
+            if (emptyFields[0].name == 'confirmado') {
+                emptyFields = [];
+            }
+        }
+        if (emptyFields.length > 0) {
+            setHasEmptyFields(true);
+            return;
+        }
 
-    //     if (dialog.content.every(campo => campo.value)) {
-    //         if (dialog.modificar) {
-    //             setLoading(true);
-    //             dispatch(updateDisease(dialog.content)).then(result => {
-    //                 console.log('Result: ', result);
-    //                 if (result.error) {
-    //                     showError('Error al modificar la enfermedada', result.message, 'error');
-    //                 } else {
-    //                     Swal.fire(
-    //                         '¡Actualizado!',
-    //                         'La enfermedad ha sido actualizada.',
-    //                         'success'
-    //                     )
-    //                     setLoading(false);
-    //                     hideDialog();
-    //                 }
-    //             });
-    //         } else {
-    //             setLoading(true);
-    //             dispatch(saveDisease(dialog.content)).then(result => {
-    //                 console.log('Result: ', result);
-    //                 if (result.error) {
-    //                     showError('Error al guardar la enfermedad', result.message, 'error');
-    //                 } else {
-    //                     Swal.fire(
-    //                         '¡Guardado!',
-    //                         'La enfermedad ha sido guardado.',
-    //                         'success'
-    //                     )
-    //                     setLoading(false);
-    //                     hideDialog();
-    //                 }
-    //             });
-    //         }
-    //     }
+        if (dialog.content.every(campo => campo.value)) {
+            if (dialog.modificar) {
+                setLoading(true);
+                dispatch(updateDisease(dialog.content)).then(result => {
+                    console.log('Result: ', result);
+                    if (result.error) {
+                        showError('Error al modificar la enfermedada', result.message, 'error');
+                    } else {
+                        Swal.fire(
+                            '¡Actualizado!',
+                            'La enfermedad ha sido actualizada.',
+                            'success'
+                        )
+                        setLoading(false);
+                        hideDialog();
+                    }
+                });
+            } else {
+                setLoading(true);
+                dispatch(saveAppoiment(dialog.content)).then(result => {
+                    console.log('Result: ', result);
+                    if (result.error) {
+                        showError('Error al guardar la cita', result.message, 'error');
+                    } else {
+                        Swal.fire(
+                            '¡Guardado!',
+                            'La cita ha sido guardada.',
+                            'success'
+                        )
+                        setLoading(false);
+                        hideDialog();
+                    }
+                });
+            }
+        }
 
-    // }
+    }
 
     const onInputChange = (e, nombre) => {
         let value = e.target.value;
         const updatedContent = dialog.content.map(campo => {
             if (campo.name === nombre) {
-                if (campo.name == 'inicio_cita') {
+                if (campo.name == 'inicio_cita' || campo.name == 'fin_cita') {
                     console.log('Fecha: ', value);
                     value = moment(value).format('YYYY-MM-DD HH:mm:ss');
                     console.log('Fecha Actual: ', value);
@@ -111,7 +125,7 @@ export const DialogAppoiment = () => {
     const getDataMedic = () => {
         let data = [];
         medics.data.map((medico) => {
-            data.push({ id: medico.id, descripcion:medico.nombre })
+            data.push({ id: medico.id, descripcion: medico.nombre })
         })
         return data;
     }
@@ -141,7 +155,7 @@ export const DialogAppoiment = () => {
                 hourFormat="24"
             />
             )
-        }else if (campo.type == 'select'){
+        } else if (campo.type == 'select') {
             return (
                 <CustomDropdown
                     key={index}
@@ -151,8 +165,20 @@ export const DialogAppoiment = () => {
                     name={campo.name}
                     onChange={(e) => onInputChange(e, campo.name)}
                     submitted={hasEmptyFields}
-                    options={getDataMedic()}
-                    optionLabel="descripcion"
+                    options={campo.name == 'tratamiento_id' ? treatmentsType : (campo.name == 'medico_id' ? getDataMedic() : pacientes)}
+                    optionLabel={campo.name == 'tratamiento_id' ? 'nombre' : (campo.name == 'medico_id' ? 'descripcion' : 'nombre')}
+                />
+            )
+        } else if (campo.type == 'checkbox') {
+            return (
+                <CustomInputSwitch
+                    key={index}
+                    id={campo.id}
+                    label={campo.label}
+                    value={campo.value}
+                    name={campo.name}
+                    onChange={(e) => onInputChange(e, campo.name)}
+                    submitted={hasEmptyFields}
                 />
             )
         }
@@ -180,13 +206,13 @@ export const DialogAppoiment = () => {
                 icon="pi pi-times"
                 disabled={loading}
                 outlined
-            // onClick={hideDialog}
+                onClick={hideDialog}
             />
             <Button
                 label={labelBtn()}
                 icon="pi pi-check"
                 disabled={loading}
-            // onClick={saveData}
+                onClick={saveData}
             />
         </React.Fragment>
     );
@@ -210,43 +236,7 @@ export const DialogAppoiment = () => {
 
                 <div className="formgrid grid">
                     {customInputs}
-                    {/* <div className="flex-auto mr-2">
-                        <label htmlFor="calendar-24h" className="font-bold block mb-2">
-                            Hora Inicio
-                        </label>
-                        <Calendar 
-                            id="calendar-24h" 
-                            value={dateTimeFI} 
-                            onChange={(e) => setDateTimeFI(e.value)} 
-                            showTime hourFormat="24" />
-                    </div>
-                    <div className="flex-auto">
-                        <label htmlFor="calendar-24h" className="font-bold block mb-2">
-                            Hora Fin
-                        </label>
-                        <Calendar 
-                            id="calendar-24h" 
-                            value={dateTimeFF} 
-                            onChange={(e) => setDateTimeFF(e.value)} 
-                            showTime hourFormat="24" />
-                    </div>
-                    <CustomInputSwitch
-                        // id={dialog[0].id}
-                        label={(dialog.content != null) ? dialog.content[2].label : 'Confirmado'}
-                        value={(dialog.content != null) ? dialog.content[2].value : false}
-                        name={(dialog.content != null) ? dialog.content[2].name :'confirmado'}
-                        onChange={(e) => onInputChange(e, 'confirmado')}
-                    />
-                    <CustomDropdown
-                        // id={index}
-                        label="Seleccione un medico"
-                        name="medico_id"
-                        value={getDataMedic()}
-                        options={getDataMedic()}
-                        onChange={(e) => onInputChange(e, 'medico_id')}
-                    /> */}
                 </div>
-                {/* {hasError && showError()} */}
 
             </Dialog >
         </>

@@ -33,7 +33,8 @@ export const AppoimentsPage = () => {
         dispatch(getAppoiments());
     }, []);
     const statusBodyTemplate = (rowData) => {
-        return <Tag value={rowData.confirmado == 0 ? "Pendiente" : "Confirmado"} severity={getEstadoSeverity(rowData.confirmado)}></Tag>;
+        console.log('STATUSBODYYY: ', rowData);
+        return <Tag value={rowData.cita.confirmado == 0 ? "Pendiente" : "Confirmado"} severity={getEstadoSeverity(rowData.cita.confirmado)}></Tag>;
     };
 
     const header = () => {
@@ -120,8 +121,9 @@ export const AppoimentsPage = () => {
     };
 
     function getMedicoName(data) {
+        console.log('getMedicoName: ', data);
         if (data.inicio_cita != '') {
-            return data.medico.usuario.nombre ?? "";
+            return data.cita.medico.usuario.nombre ?? "";
         } else {
             return "";
         }
@@ -148,6 +150,12 @@ export const AppoimentsPage = () => {
         }
         return "";
     }
+    function getTratamientoName(data){
+        if (data.inicio_cita != '') {
+            return data.tipo_tratamiento.nombre ?? "";
+        }
+    }
+
 
     return (
         <div className="card lg:flex justify-content-center">
@@ -168,6 +176,7 @@ export const AppoimentsPage = () => {
                         <Column field="paciente" header="Paciente" body={citas.length == 0 ? skeleton : getPacienteName}></Column>
                         <Column field="inicio_cita" header="Fecha y Hora Inicio" body={citas.length == 0 ? skeleton : getCitaHI}></Column>
                         <Column field="fin_cita" header="Fecha y Hora Fin" body={citas.length == 0 ? skeleton : getCitaHF}></Column>
+                        <Column field="tipo_tratamiento" header="Tipo de Tratamiento" body={citas.length == 0 ? skeleton : getTratamientoName}></Column>
                         <Column field="estado" header="Confirmado" body={citas.length == 0 ? skeleton : statusBodyTemplate} style={{ width: '10%' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyEditTemplate} bodyStyle={{ textAlign: 'center' }}></Column>
                         <Column headerStyle={{ width: '10%', minWidth: '8rem' }} body={bodyDeleteTemplate} bodyStyle={{ textAlign: 'center' }}></Column>

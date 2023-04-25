@@ -1,4 +1,4 @@
-export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_id, medico_id, tratamiento_id) => {
+export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, paciente_id, medico_id, tratamiento_id) => {
 
     return [
         {
@@ -35,9 +35,9 @@ export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_i
         },
         {
             id: "",
-            label: "Consultorio",
-            name: "consultorio_id",
-            value: consultorio_id || "",
+            label: "Paciente",
+            name: "paciente_id",
+            value: paciente_id || "",
             onChange: null,
             autoFocus: false,
             submitted: null,
@@ -45,7 +45,7 @@ export const cita_inputs = (id, inicio_cita, fin_cita, confirmado, consultorio_i
             keyfilter: ''
         },
         {
-            id: medico_id || "",
+            id: "",
             label: "Medico",
             name: "medico_id",
             value: medico_id || "",

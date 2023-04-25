@@ -21,11 +21,12 @@ export const AdminRoutes = () => {
             <Route path="/admin/allergies" element={<AdminScreen><AllergiesPage /></AdminScreen>} />
             <Route path="/admin/diseases" element={<AdminScreen><DiseasePage /></AdminScreen>} />
             <Route path="/admin/medicine" element={<AdminScreen><MedicinePage /></AdminScreen>} />
-            <Route path="/admin/treatment" element={<AdminScreen><TreatmentPage /></AdminScreen>} />
+            {/* <Route path="/admin/treatment" element={<AdminScreen><TreatmentPage /></AdminScreen>} /> */}
             <Route path="/admin/treatmenttype" element={<AdminScreen><TreatmentTypePage /></AdminScreen>} />
             <Route path="/admin/citas" element={<AdminScreen><AppoimentsPage /></AdminScreen>} /> 
             <Route path="/admin/medics" element={<AdminScreen><MedicsPage /></AdminScreen>} />
             <Route path="/admin/speciality" element={<AdminScreen><SpecialityPage /></AdminScreen>} />
+            <Route path="/admin/patients" element={<AdminScreen><PatientsPage /></AdminScreen>} />
             {/*  <Route path="/admin/enfermedades" element={<AdminPage><EnfermedadesPage /></AdminPage>} />
             <Route path="/admin/alergias" element={<AdminPage><AlergiasPage /></AdminPage>} />
             <Route path="/admin/medicamentos" element={<AdminPage><MedicamentosPage /></AdminPage>} />

@@ -52,7 +52,7 @@ export const HomePage = () => {
                 <CardContainer
                     title="Tratamientos"
                     subTitle="Gestione los tratamientos de la plataforma."
-                    goTo="/admin/treatment"
+                    goTo="/admin/treatmenttype"
                     severity={0}
                 />
 
@@ -102,12 +102,12 @@ export const HomePage = () => {
                     style={{ borderRadius: '1rem', background: 'linear-gradient(0deg, rgba(0, 123, 255, 0.5), rgba(0, 123, 255, 0.5)), linear-gradient(92.54deg, #1C80CF 47.88%, #FFFFFF 100.01%)' }}
                 >
                     <div>
-                        <div className="text-blue-100 font-medium text-xl mt-2 mb-3">TAKE THE NEXT STEP</div>
-                        <div className="text-white font-medium text-5xl">Try PrimeBlocks</div>
+                        <div className="text-blue-100 font-medium text-xl mt-2 mb-3">DENTAPP</div>
+                        <div className="text-white font-medium text-5xl">Tu clinica de confianza :)</div>
                     </div>
                     <div className="mt-4 mr-auto md:mt-0 md:mr-0">
-                        <Link href="https://blocks.primereact.org" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
-                            Get Started
+                        <Link href="#" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                            Soporte Tecnico
                         </Link>
                     </div>
                 </div>

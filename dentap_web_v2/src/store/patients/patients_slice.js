@@ -5,6 +5,8 @@ export const PacientesSlice = createSlice({
     name: 'pacientes',
     initialState: {
         pacientes: [],
+        paciente: {},
+        citas: [],
         message: '',
         loading: false,
         isSaving: false,
@@ -17,6 +19,16 @@ export const PacientesSlice = createSlice({
             state.loading = false;
             state.message = action.payload.message;
         },
+        setCitasxPaciente: (state, action) => {
+            state.citas = action.payload.citas;
+            state.loading = false;
+            state.message = action.payload.message;
+        },
+        setPaciente: (state, action) => {
+            state.paciente = action.payload.paciente;
+            state.loading = false;
+            state.message = action.payload.message;
+        },
 
         setLoading: (state, action) => {
             state.loading = action.payload;
@@ -24,4 +36,4 @@ export const PacientesSlice = createSlice({
     }
 });
 
-export const { setPacientes,setLoading } = PacientesSlice.actions;
+export const { setPacientes,setCitasxPaciente, setPaciente,setLoading } = PacientesSlice.actions;

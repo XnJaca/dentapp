@@ -1,5 +1,5 @@
-import { setLoading, setPacientes } from "./patients_slice";
-import { deletePatientService, getAllPacientes, savePatientService, updatePatientService } from "./service/patients_service";
+import { setCitasxPaciente, setLoading, setPaciente, setPacientes } from "./patients_slice";
+import { deletePatientService, getAllPacientes, getCitasxPacienteService, getPacienteByIDService, savePatientService, updatePatientService } from "./service/patients_service";
 
 export const getPacientes = () => async (dispatch) => {
 
@@ -18,6 +18,64 @@ export const getPacientes = () => async (dispatch) => {
         console.log(response.message);
     }
 }
+
+export const getPacienteByID = (id) => async (dispatch) => {
+    // dispatch(setLoading(true));
+    console.log('getPacienteByID', id);
+    const response = await getPacienteByIDService(id);
+    console.log('responsePacienteByID', response);
+
+    if (response.error == false) {
+        dispatch(setPaciente(
+            {
+                paciente: response.paciente,
+                message: response.message
+            }
+        ));
+        return {
+            error: false,
+            message: response.message,
+            paciente: response.paciente
+        }
+    } else {
+        console.log(response.message);
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+}
+
+export const getCitasxPaciente = (id) => async (dispatch) => {
+    // dispatch(setLoading(true));
+    console.log('getCitasxPaciente', id);
+    const response = await getCitasxPacienteService(id);
+    console.log('responseCitasxPaciente', response);
+
+    if (response.error == false) {
+        dispatch(setCitasxPaciente(
+            {
+                citasxPaciente: response.citas,
+                message: response.message
+            }
+        ));
+        return {
+            error: false,
+            message: response.message,
+            citasxPaciente: response.citas
+        }
+    } else {
+        console.log(response.message);
+        return {
+            error: true,
+            message: response.message
+        }
+    }
+}
+
+
+
+
 
 export const savePatient = (user) => async (dispatch) => {
 

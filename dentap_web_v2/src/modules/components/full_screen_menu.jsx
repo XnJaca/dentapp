@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startLogout } from '../../store/auth';
 import { Ripple } from 'primereact/ripple';
 
@@ -9,7 +9,7 @@ export default function FullScreenDemo() {
 
     const [visible, setVisible] = useState(false);
 
-
+    const user = useSelector(state => state.auth.data.tipo_usuario_x_usuario[0].tipo.descripcion);
     console.log(window.history.state.idx != 0);
     const goBack = () => {
         window.history.back();
@@ -30,17 +30,21 @@ export default function FullScreenDemo() {
                     </Button>
                     <Ripple />
                 </div>
-                <div className="card lg:flex justify-content-center">
-                    <Button label='Gestionar Usuarios Administrativos' severity="info" className='lg:w-2 h-6rem p-6 success m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
+                {user == 'ADMINISTRADOR' && (
+                    <><div className="card lg:flex justify-content-center">
+                        <Button label='Gestionar Usuarios Administrativos' severity="info" className='lg:w-2 h-6rem p-6 success m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
 
-                    <Button label='Gestionar Pacientes Administrativos' severity="success" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
-                </div>
+                        <Button label='Gestionar Pacientes Administrativos' severity="success" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
+                    </div>
 
-                <div className="card lg:flex justify-content-center">
-                    <Button label='Gestionar Usuarios Administrativos' severity="warning" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
+                        <div className="card lg:flex justify-content-center">
+                            <Button label='Gestionar Usuarios Administrativos' severity="warning" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
 
-                    <Button label='Gestionar Pacientes Administrativos' severity="help" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
-                </div>
+                            <Button label='Gestionar Pacientes Administrativos' severity="help" className='lg:w-2 h-6rem p-6 m-4 shadow-7' icon="pi pi-user" aria-label="Usuarios" />
+                        </div>
+                    </>
+                )}
+
             </Sidebar>
 
             {window.history.state.idx != 0 && (

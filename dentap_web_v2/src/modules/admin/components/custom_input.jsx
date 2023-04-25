@@ -19,12 +19,12 @@ const isValid = (submitted, value) => {
     return defaultClass;
 }
 
-export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilter }) => {
+export const CustomInputText = ({ id, label, value, onChange, submitted, keyfilter, disabled = false }) => {
 
     return (
         <div className="field col-12 md:col-4">
-            <label htmlFor={id}>{label}</label>
-            <InputText keyfilter={keyfilter} id={id} value={value} type="text" onChange={onChange} className={classNames({ 'p-invalid': submitted && !value })} />
+            <label htmlFor={id} className='mr-2'>{label}</label>
+            <InputText keyfilter={keyfilter} disabled={disabled} id={id} value={value} type="text" onChange={onChange} className={classNames({ 'p-invalid': submitted && !value })} />
             {submitted && !value && <small className="p-invalid">{label} es requerido.</small>}
         </div>
     )
@@ -139,7 +139,7 @@ export const CustomCalendar = ({ id, name, label, value, onChange, submitted, sh
     );
 }
 
-export const CustomListBox = ({ id, name, label,value, optionLabel, onChange, options }) => {
+export const CustomListBox = ({ id, name, label,value, optionLabel, onChange, options, disabled = false }) => {
     const toast = useRef(null);
     console.log('CustomListBox - value:', value);
     return (
@@ -153,6 +153,7 @@ export const CustomListBox = ({ id, name, label,value, optionLabel, onChange, op
             name={name}
             onChange={onChange}
             multiple 
+            disabled={disabled}
             value={value} 
             options={options} 
             optionLabel="nombre"

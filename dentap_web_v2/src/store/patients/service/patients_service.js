@@ -20,6 +20,26 @@ export const getAllPacientes = async () => {
     }
 }
 
+export const getPacienteByIDService = async (id) => {
+    try {
+        const response = await FetchToApi({
+            endpoint: EndPoint.pacientes + '/' + id,
+            method: 'GET'
+        });
+        return {
+            error: false,
+            message: response.message,
+            paciente: response.data
+        };
+    } catch (error) {
+        return {
+            error: true,
+            message: error.message
+        }
+    }
+}
+
+
 const getJson = (user) => {
     return {
         "usuario": {
@@ -54,6 +74,28 @@ const getJson = (user) => {
     };
 
 }
+
+export const getCitasxPacienteService = async (id) => {
+    try {
+        const response = await FetchToApi({
+            endpoint: EndPoint.citas + '/' + id,
+            method: 'GET'
+        });
+        return {
+            error: false,
+            message: response.message,
+            citas: response.data
+        };
+    } catch (error) {
+        return {
+            error: true,
+            message: error.message
+        }
+    }
+}
+
+
+
 export const savePatientService = async (user) => {
 
     try {

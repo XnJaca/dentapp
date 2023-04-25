@@ -1,9 +1,5 @@
 import React, { Children, useEffect } from 'react'
 import FullScreenMenu from '../components/full_screen_menu'
-import { useDispatch, useSelector } from 'react-redux';
-import { getTipoUsuarios } from '../../store/tipo_usuarios/tipo_usuario_thunk';
-import Swal from 'sweetalert2';
-import { getAllergies } from '../../store/allergies/allergies_thunk';
 
 
 export const AdminScreen = ({ children }) => { 
