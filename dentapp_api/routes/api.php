@@ -11,7 +11,9 @@ use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\TipoSangreController;
+use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TipoUsuarioController;
+use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,4 +65,5 @@ Route::resource('pacientes', PacienteController::class);
 
 Route::resource('tipo_sangre', TipoSangreController::class);
 
+Route::resource('tratamientos', TipoTratamientoController::class);
 // Route::put('/api/enfermedades/{id}', [EnfermedadController::class, 'update']);
