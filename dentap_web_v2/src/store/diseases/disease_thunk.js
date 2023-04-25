@@ -10,23 +10,7 @@ const UpdateDisease = (disease) => {
         descripcion: disease[1].value,
     }
 }
-
-const getDiseases = () => async (dispatch) => {
-    // console.log('getTipoSangre');
-    const response = getAllDiseases();
-
-    console.log('response getAllDiseases', response.data);
-    if (response.error == false) {
-        dispatch(setData(
-            {
-                data: response.data,
-                message: response.message
-            }
-        ));
-    } else {
-        console.log(response.message);
-    }
-}
+ 
 
 export const DiseaseThunk = () => {
 

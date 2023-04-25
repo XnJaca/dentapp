@@ -15,8 +15,8 @@ export const HomePage = () => {
     const diseases = DiseaseThunk();
     useEffect(() => {
         dispatch(getGeneros());
-        dispatch(getTipoUsuarios()); 
-        dispatch(diseases.getDiseases()); 
+        dispatch(getTipoUsuarios());
+        dispatch(diseases.getDiseases());
     }, []);
 
     return (
@@ -56,13 +56,22 @@ export const HomePage = () => {
                     goTo="/admin/treatment"
                     severity={0}
                 />
+
+
             </div>
             <div className="card lg:flex justify-content-center">
                 <CardContainer
                     title="Pacientes"
                     subTitle="Gestione los pacientes de la plataforma."
                     goTo="/admin/patients"
-                    severity={1}
+                    severity={0}
+                />
+
+                <CardContainer
+                    title="Medicos"
+                    subTitle="Gestione los Medicos de la plataforma."
+                    goTo="/admin/medics"
+                    severity={3}
                 />
             </div>
 

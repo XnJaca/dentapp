@@ -40,7 +40,7 @@ export const TreatmentTypeThunk = () => {
 
         dispatch(setLoading(true));
 
-        const response = await saveTreatmentTypeService(treatmentType, id);
+        const response = await saveTreatmentTypeService(treatmentType);
 
         if (response.error == false) {
             const response = await getAllTreatmentsTypes();

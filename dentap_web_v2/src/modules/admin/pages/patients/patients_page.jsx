@@ -14,6 +14,8 @@ import { DialogPatient } from './components/dialog_patient';
 import { getAllAllergies } from '../../../../store/allergies/services/allergies_service';
 import { getAllergies } from '../../../../store/allergies/allergies_thunk';
 import { getTipoSangre } from '../../../../store/tipo_sangre/blood_type_thunk';
+import { DiseaseThunk } from '../../../../store/diseases/disease_thunk';
+import { getTipoUsuarios } from '../../../../store/tipo_usuarios/tipo_usuario_thunk';
 import { Skeleton } from 'primereact/skeleton';
 import Swal from 'sweetalert2';
 import { Toast } from 'primereact/toast';
@@ -25,10 +27,13 @@ export const PatientsPage = () => {
   const patients = useSelector(state => state.pacientes.pacientes);
   const dialog = useSelector(state => state.dialog);
   const toast = useRef(null);
+  const {getDiseases} = DiseaseThunk();
   useEffect(() => {
     dispatch(getPacientes());
     dispatch(getAllergies());
     dispatch(getTipoSangre());
+    dispatch(getDiseases());
+    dispatch(getTipoUsuarios());
   }, []);
 
 

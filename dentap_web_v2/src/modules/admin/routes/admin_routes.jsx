@@ -8,6 +8,7 @@ import { MedicinePage } from "../pages/medicine/medicine_page"
 import { TreatmentPage } from "../pages/treatment/treatment_page"
 import { TreatmentTypePage } from "../pages/treatment_type/treatment_type_page"
 import { PatientsPage } from "../pages/patients/patients_page"
+import { MedicsPage } from "../pages/medic/medic_page"
 
 export const AdminRoutes = () => {
     return (
@@ -21,6 +22,7 @@ export const AdminRoutes = () => {
             <Route path="/admin/treatment" element={<AdminScreen><TreatmentPage/></AdminScreen>} />
             <Route path="/admin/treatmenttype" element={<AdminScreen><TreatmentTypePage/></AdminScreen>} />
             <Route path="/admin/patients" element={<AdminScreen><PatientsPage/></AdminScreen>} />
+            <Route path="/admin/medics" element={<AdminScreen><MedicsPage/></AdminScreen>} />
             {/*  <Route path="/admin/enfermedades" element={<AdminPage><EnfermedadesPage /></AdminPage>} />
             <Route path="/admin/alergias" element={<AdminPage><AlergiasPage /></AdminPage>} />
             <Route path="/admin/medicamentos" element={<AdminPage><MedicamentosPage /></AdminPage>} />

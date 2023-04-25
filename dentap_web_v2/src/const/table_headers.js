@@ -57,11 +57,22 @@ const headers_pacientes = [
     { field: "telefono", header: "Telefono" },
     // { field: "estado", header: "Estado" },
 ];
+ 
+
+const headers_medicos = [
+    { field: "id", header: "Id" },
+    { field: "cedula", header: "Cedula" },
+    { field: "nombre", header: "Nombre" },
+    { field: "apellido_1", header: "Apellidos" },
+    { field: "email", header: "Email" },
+    { field: "telefono", header: "Telefono" }, 
+];
 
 
 export { 
     headers_usuarios, headers_enfermedades, 
     headers_alergia, headers_medicamentos, 
     headers_horarios, headers_tipos_tratamientos,
-    headers_tratamientos, headers_pacientes
+    headers_tratamientos, headers_pacientes,
+    headers_medicos
 };

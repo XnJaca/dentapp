@@ -6,3 +6,5 @@ export * from './inputs_allergies';
 export * from './inputs_diseases';
 export * from './inputs_medicines';
 export * from './inputs_treatment';
+
+export * from './inputs_medics';
