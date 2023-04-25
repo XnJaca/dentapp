@@ -14,4 +14,5 @@ export const EndPoint = {
     tipos_tratamientos: `${baseUrl}/tipos_tratamientos`,
     pacientes: `${baseUrl}/pacientes`,
     tipo_sangre: `${baseUrl}/tipo_sangre`,
+    citas: `${baseUrl}/citas`,
 }

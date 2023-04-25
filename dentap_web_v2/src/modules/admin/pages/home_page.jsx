@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import { Link } from 'react-router-dom'
-import SortingDemo from './appointment/appointments_table'
 import { CardContainer } from '../components/card_container'
 import { useDispatch } from 'react-redux'
 import { getUsers } from '../../../store/users/user_thunk'
@@ -15,8 +14,8 @@ export const HomePage = () => {
     const diseases = DiseaseThunk();
     useEffect(() => {
         dispatch(getGeneros());
-        dispatch(getTipoUsuarios()); 
-        dispatch(diseases.getDiseases()); 
+        dispatch(getTipoUsuarios());
+        dispatch(diseases.getDiseases());
     }, []);
 
     return (
@@ -63,6 +62,13 @@ export const HomePage = () => {
                     subTitle="Gestione los pacientes de la plataforma."
                     goTo="/admin/patients"
                     severity={1}
+                />
+
+                <CardContainer
+                    title="Citas"
+                    subTitle="Gestione las citas de la plataforma."
+                    goTo="/admin/citas"
+                    severity={2}
                 />
             </div>
 
