@@ -10,11 +10,18 @@ class TratamientoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JSONResponse
      */
     public function index()
     {
         //
+        $tratamientos = Tratamiento::with('tipoTratamiento','medico.usuario')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lista de tratamientos',
+            'data' => $tratamientos
+        ]);
     }
 
     /**

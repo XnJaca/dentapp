@@ -17,21 +17,15 @@ class CitaPaciente extends Model
         'cita_id',
         'paciente_id',
         'tratamiento_id',
-        'medico_id',
     ];
 
     // Relation with cita
-    // public function cita()
-    // {
-    //     return $this->hasManyThrough(
-    //         Cita::class,
-    //         CitaPaciente::class,
-    //         'paciente_id',
-    //         'id',
-    //         'id',
-    //         'cita_id'
-    //     )->with('tratamiento', 'paciente', 'medico');
-    // }
+
+    // Relation with tipoTratamiento
+    public function tipoTratamiento()
+    {
+        return $this->belongsTo(TipoTratamiento::class, 'tratamiento_id');
+    }
     public function cita()
     {
         return $this->belongsTo(Cita::class);
@@ -50,10 +44,10 @@ class CitaPaciente extends Model
     // }
 
 
-    public function medico()
-    {
-        return $this->belongsTo(Medico::class);
-    }
+    // public function medico()
+    // {
+    //     return $this->belongsTo(Medico::class);
+    // }
 
     //relation with medicamentotratamiento
     // public function medicamentoTratamiento()

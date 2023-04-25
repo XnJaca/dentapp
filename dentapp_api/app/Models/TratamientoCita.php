@@ -19,11 +19,17 @@ class TratamientoCita extends Model
         'tratamiento_id',
     ];
 
-    //relation with tratamiento
-    public function tratamiento()
+    // Relation to tipo_tratamiento
+    public function tipoTratamiento()
     {
-        return $this->belongsTo(Tratamiento::class);
+        return $this->belongsTo(TipoTratamiento::class);
     }
+
+    //relation with tratamiento
+    // public function tratamiento()
+    // {
+    //     return $this->belongsTo(Tratamiento::class);
+    // }
 
     //relation with cita
     public function cita()

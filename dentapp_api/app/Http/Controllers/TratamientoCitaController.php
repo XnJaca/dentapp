@@ -10,11 +10,16 @@ class TratamientoCitaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JSONResponse
      */
     public function index()
     {
-        //
+        $tratamientos = TratamientoCita::with('tipoTratamiento')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Lista de tratamientos',
+            'data' => $tratamientos
+        ]);
     }
 
     /**

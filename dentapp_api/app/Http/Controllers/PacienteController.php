@@ -31,6 +31,7 @@ class PacienteController extends Controller
         //     $medico_data = $medico->makeHidden('usuario')->toArray();
         //     return array_merge($usuario_data, $medico_data,['genero' => $genero_usuario], ['tipo_usuario' => $tipo_usuario]);
         // });
+        
         $pacientes = Paciente::with(['usuario.tipoUsuarioXUsuario.tipo', 'alergias', 'enfermedades', 'citas'])->get()->map(function ($paciente) {
             $usuario_data = $paciente->usuario->makeHidden('tipoUsuarioXUsuario')->toArray();
             $paciente_data = $paciente->makeHidden('usuario', 'tipo_sangre_id', 'alergia_paciente_id', 'enfermedad_paciente_id')->toArray();
@@ -139,12 +140,37 @@ class PacienteController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Paciente  $paciente
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JSONResponse
      */
-    public function show(Paciente $paciente)
+    public function show($id)
     {
-        //
+        $paciente = Paciente::with(['usuario.tipoUsuarioXUsuario.tipo', 'alergias', 'enfermedades', 'citas'])
+                    ->where('id', $id)
+                    ->firstOrFail();
+    
+        $usuario_data = $paciente->usuario->makeHidden('tipoUsuarioXUsuario')->toArray();
+        $paciente_data = $paciente->makeHidden('usuario', 'tipo_sangre_id', 'alergia_paciente_id', 'enfermedad_paciente_id')->toArray();
+        $tipo_usuario = $paciente->usuario->tipoUsuarioXUsuario->first()->tipo;
+        $genero_usuario = $paciente->usuario->genero;
+        $tipo_sangre = $paciente->tipoSangre;
+        $alergias = $paciente->alergias->toArray();
+    
+        $data = array_merge(
+                $paciente_data,
+                $usuario_data,
+                ['genero' => $genero_usuario],
+                ['tipo_usuario' => $tipo_usuario],
+                ['tipo_sangre' => $tipo_sangre],
+                ['alergias' => $alergias]
+        );
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Datos del paciente con información de tipo de usuario',
+            'data' => $data
+        ]);
     }
+    
 
     /**
      * Show the form for editing the specified resource.

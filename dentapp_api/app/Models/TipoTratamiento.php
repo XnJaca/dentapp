@@ -20,6 +20,17 @@ class TipoTratamiento extends Model
         'precio'
     ];
 
+// Relation with citaPaciente
+    public function citaPaciente()
+    {
+        return $this->belongsTo(CitaPaciente::class);
+    }
+
+    // Relation to tratamientoCita
+    public function tratamientoCita()
+    {
+        return $this->hasMany(TratamientoCita::class);
+    }
     // Relation with tratamiento
     public function tratamiento()
     {

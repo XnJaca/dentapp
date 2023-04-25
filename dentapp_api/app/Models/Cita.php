@@ -40,8 +40,8 @@ class Cita extends Model
     }
 
     //relation with tratamientoCita
-    public function tratamientoCita()
+    public function tipoTratamiento()
     {
-        return $this->hasMany(TratamientoCita::class);
+        return $this->hasOne(TipoTratamiento::class, 'id');
     }
 }
