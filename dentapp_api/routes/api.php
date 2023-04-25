@@ -65,5 +65,5 @@ Route::resource('pacientes', PacienteController::class);
 
 Route::resource('tipo_sangre', TipoSangreController::class);
 
-Route::resource('tratamientos', TipoTratamientoController::class);
+Route::resource('tipo_tratamientos', TipoTratamientoController::class);
 // Route::put('/api/enfermedades/{id}', [EnfermedadController::class, 'update']);
